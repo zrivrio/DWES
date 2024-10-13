@@ -1113,11 +1113,16 @@ Fabricante: Xiaomi
 			//TODO STREAMS
 
 
-			System.out.println();
-			listProd.stream()
+			List<Double> precios = listProd.stream()
 					.filter(p -> "Crucial".equals(p.getFabricante().getNombre()))
-					.collect(summarizingDouble(Producto::getPrecio));
+					.map(Producto::getPrecio)
+					.toList();
 
+			System.out.println(precios.stream().max(Double::compare).orElse(0.0));
+			System.out.println(precios.stream().min(Double::compare).orElse(0.0));
+			double sum = precios.stream().mapToDouble(Double::doubleValue).sum();
+			System.out.println(sum / precios.size());
+			System.out.println(sum);
 
 		}
 		catch (RuntimeException e) {
@@ -1156,9 +1161,9 @@ Hewlett-Packard              2
 
 			//TODO STREAMS
 
-			listFab.stream()
-					.map(f -> f.getNombre() + " " + f.getProductos())
-					.count();
+
+			System.out.println("Fabricante    Producto");
+			listFab.stream().forEach(f ->System.out.println(f.getNombre() +"     " + f.getProductos().size()));
 
 
 		}
@@ -1182,6 +1187,10 @@ Hewlett-Packard              2
 			List<Fabricante> listFab = fabricantesDAOImpl.findAll();
 
 			//TODO STREAMS
+			
+			System.out.println(listFab.stream()
+					.flatMap(f -> f.getProductos().stream())
+					.collect(summarizingDouble(Producto::getPrecio)));
 
 		}
 		catch (RuntimeException e) {
@@ -1203,6 +1212,29 @@ Hewlett-Packard              2
 			List<Fabricante> listFab = fabricantesDAOImpl.findAll();
 
 			//TODO STREAMS
+			listFab.stream()
+					.forEach(f -> {
+						// Obtener los precios de los productos del fabricante
+						List<Double> precios = f.getProductos().stream()
+								.map(Producto::getPrecio)  // Obtener los precios
+								.toList();
+
+						if (!precios.isEmpty()) {
+							// Calcular el precio medio
+							double precioMedio = precios.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+
+							if (precioMedio > 200) {
+								// Precio máximo, mínimo y total de productos
+								double precioMax = precios.stream().mapToDouble(Double::doubleValue).max().orElse(0.0);
+								double precioMin = precios.stream().mapToDouble(Double::doubleValue).min().orElse(0.0);
+								long totalProductos = precios.size();
+
+								// Mostrar los resultados con el código del fabricante
+								System.out.printf("Código fabricante: %d, Precio máximo: %.2f, Precio mínimo: %.2f, Precio medio: %.2f, Total productos: %d%n",
+										f.getIdFabricante(), precioMax, precioMin, precioMedio, totalProductos);
+							}
+						}
+					});
 
 		}
 		catch (RuntimeException e) {
@@ -1224,6 +1256,11 @@ Hewlett-Packard              2
 
 			//TODO STREAMS
 
+			listFab.stream()
+					.filter(f -> f.getProductos().size() > 2)
+					.forEach(f -> System.out.println(f.getNombre()));
+
+
 		}
 		catch (RuntimeException e) {
 			fabricantesDAOImpl.rollbackTransaction();
@@ -1244,6 +1281,19 @@ Hewlett-Packard              2
 			List<Fabricante> listFab = fabricantesDAOImpl.findAll();
 
 			//TODO STREAMS
+			listFab.stream()
+					.forEach(f -> {
+						long count = f.getProductos().stream()
+								.filter(p -> p.getPrecio() >= 220)  // Filtrar productos con precio >= 220€
+								.count();  // Contar cuántos productos cumplen la condición
+
+						if (count > 0) {
+							// Imprimir el nombre del fabricante y el número de productos
+							System.out.printf("Fabricante: %s, Número de productos: %d%n", f.getNombre(), count);
+						}
+					});
+
+
 
 		}
 		catch (RuntimeException e) {
@@ -1264,6 +1314,10 @@ Hewlett-Packard              2
 			List<Fabricante> listFab = fabricantesDAOImpl.findAll();
 
 			//TODO STREAMS
+			listFab.stream()
+					.filter(f -> f.getProductos().stream().mapToDouble(Producto::getPrecio).sum() > 1000)  // Suma de precios > 1000€
+					.forEach(f -> System.out.println(f.getNombre()));  // Imprimir nombres de los fabricantes
+
 
 		}
 		catch (RuntimeException e) {
@@ -1285,6 +1339,19 @@ Hewlett-Packard              2
 			List<Fabricante> listFab = fabricantesDAOImpl.findAll();
 
 			//TODO STREAMS
+			listFab.stream()
+					.map(f -> new Object[]{
+							f.getNombre(),  // Nombre del fabricante
+							f.getProductos().stream()
+									.mapToDouble(Producto::getPrecio)  // Sumamos los precios de todos los productos
+									.sum()
+					})
+					.filter(entry -> (double) entry[1] > 1000)  // Filtrar fabricantes con suma de productos superior a 1000€
+					.sorted(Comparator.comparingDouble(entry -> (double) entry[1]))  // Ordenar de menor a mayor por la suma de los precios
+					.forEach(entry -> {
+						// Imprimir el nombre del fabricante y la suma de los precios
+						System.out.printf("Fabricante: %s, Suma precios: %.2f%n", entry[0], entry[1]);
+					});
 
 		}
 		catch (RuntimeException e) {
@@ -1307,6 +1374,17 @@ Hewlett-Packard              2
 			List<Fabricante> listFab = fabricantesDAOImpl.findAll();
 
 			//TODO STREAMS
+			listFab.stream()
+					.filter(f -> !f.getProductos().isEmpty())  // Filtrar fabricantes que tienen productos
+					.forEach(f -> {
+						// Encontrar el producto más caro de cada fabricante
+                        f.getProductos().stream()
+                                .max(Comparator.comparingDouble(Producto::getPrecio)).ifPresent(productoMasCaro -> System.out.printf("Producto: %s, Precio: %.2f, Fabricante: %s%n",
+                                        productoMasCaro.getNombre(),
+                                        productoMasCaro.getPrecio(),
+                                        f.getNombre()));
+
+                    });
 			
 		}
 		catch (RuntimeException e) {
