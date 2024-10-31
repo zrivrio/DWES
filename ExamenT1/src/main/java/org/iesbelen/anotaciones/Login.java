@@ -1,10 +1,7 @@
 package org.iesbelen.anotaciones;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 // usuario: usuario1
 // passwd: admin <-> hashPasswd: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
@@ -18,7 +15,6 @@ public class Login {
         List<Credencial> listaCredencial;
 
         public Login() throws NoSuchAlgorithmException {
-            listaCredencial = new ArrayList<Credencial>();
             login();
             cargadorContexto();
         }
@@ -30,18 +26,25 @@ public class Login {
             System.out.println("Ingrese su contraseña: ");
             String contrasena = sc.nextLine();
 
+            boolean accesoConcedido = false;
+            String hashedPassword = clavehas.hashPassword(contrasena); // Ensure clavehas is defined correctly
+
             for (Credencial credencial : listaCredencial) {
-                if (usuario.equals(credencial.usuario()) && clavehas.hashPassword(contrasena).equals(credencial.hashPasswd())) {
-                    System.out.println("ACCESO CONCEDIDO");
-                } else {
-                    System.out.println("ACCESO DENEGADO");
+                if (usuario.equals(credencial.usuario()) && hashedPassword.equals(credencial.hashPasswd())) {
+                    accesoConcedido = true;
+                    break;
                 }
+            }
+            if (accesoConcedido) {
+                System.out.println("ACCESO CONCEDIDO");
+            } else {
+                System.out.println("ACCESO DENEGADO");
             }
         }
 
         public void cargadorContexto() {
             Credencial[] credencial = Login.class.getAnnotationsByType(Credencial.class);
-            Collections.addAll(listaCredencial, credencial);
+            listaCredencial.addAll(Arrays.asList(credencial));
         }
 
 }
