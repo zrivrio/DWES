@@ -10,68 +10,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5a7e432c-af24-4f3b-bb31-42e03fde0ebf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/ballena.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/caballito-mar.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/camello.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/cebra.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/elefante.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/hipopotamo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/jirafa.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/leon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/leopardo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/medusa.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/mono.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/oso-blanco.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/oso.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/pajaro.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/pinguino.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/rinoceronte.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/serpiente.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/tigre.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/tortuga-marina.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../animales/src/main/webapp/imgAnimales/tortuga.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/animalitos/HelloServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/beans.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/ballena.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/caballito-mar.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/camello.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/cebra.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/elefante.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/hipopotamo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/jirafa.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/leon.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/leopardo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/medusa.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/mono.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/oso-blanco.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/oso.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/pajaro.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/pinguino.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/rinoceronte.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/serpiente.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/tigre.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/tortuga-marina.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/imgAnimales/tortuga.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../formulario/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/../formulario/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "zrivrio"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/zrivrio/DWES.git",
+    "accountId": "2c910dcc-b6c5-4727-9c74-697385704682"
+  }
+}]]></component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -79,6 +39,10 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 1
+}]]></component>
   <component name="ProjectId" id="2o9ktWdq6FQu13JatsV3iejiDhq" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -90,6 +54,7 @@
     "Tomcat Server.Tomcat 11.0.01.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/zrivr/OneDrive/Documentos/2 DAW/DWES/ExamenT1",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -208,6 +173,7 @@
       <option name="presentableId" value="Default" />
       <updated>1730289393986</updated>
       <workItem from="1730289395108" duration="653000" />
+      <workItem from="1730459587990" duration="645000" />
     </task>
     <servers />
   </component>
