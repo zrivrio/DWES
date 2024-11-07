@@ -24,6 +24,7 @@ public class Fabricante {
         this.nombre = nombre;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

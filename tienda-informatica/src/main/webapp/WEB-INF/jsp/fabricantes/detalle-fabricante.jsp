@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="org.iesbelen.model.Fabricante"%>
 <%@page import="java.util.Optional"%>
+<%@ page import="org.iesbelen.model.FabricanteDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,7 @@
 			<hr/>
 		</div>
 		
-		<% 	Optional<Fabricante> optFab = (Optional<Fabricante>)request.getAttribute("fabricante");
+		<% 	Optional<FabricanteDTO> optFab = (Optional<FabricanteDTO>) request.getAttribute("fabricante");
 			if (optFab.isPresent()) {
 		%>
 		
@@ -57,7 +58,13 @@
 			</div>
 			<div style="float: none;width: auto;overflow: hidden;">
 				<input value="<%= optFab.get().getNombre() %>" readonly="readonly"/>
-			</div> 
+			</div>
+			<div style="float: left;width: 50%">
+				<label>Numero de Productos</label>
+			</div>
+			<div style="float: none;width: auto;overflow: hidden;">
+				<input value="<%= optFab.get().getNumProductos() %>" readonly="readonly"/>
+			</div>
 		</div>
 		
 		<% 	} else { %>

@@ -112,12 +112,16 @@ public class ProductosServlet extends HttpServlet {
 		
 		if (__method__ == null) {
 			// Crear uno nuevo
-			ProductoDAO fabDAO = new ProductoDAOImpl();
+			ProductoDAO prodDAO = new ProductoDAOImpl();
 			
 			String nombre = request.getParameter("nombre");
-			Producto nuevoFab = new Producto();
-			nuevoFab.setNombre(nombre);
-			fabDAO.create(nuevoFab);			
+			Double precio = Double.parseDouble(request.getParameter("precio"));
+			Integer idFabricante = Integer.parseInt(request.getParameter("idFabricante"));
+			Producto nuevoProd = new Producto();
+			nuevoProd.setNombre(nombre);
+			nuevoProd.setPrecio(precio);
+			nuevoProd.setIdProducto(idFabricante);
+			prodDAO.create(nuevoProd);
 			
 		} else if (__method__ != null && "put".equalsIgnoreCase(__method__)) {			
 			// Actualizar uno existente
@@ -142,7 +146,7 @@ public class ProductosServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		ProductoDAO fabDAO = new ProductoDAOImpl();
+		ProductoDAO prodDAO = new ProductoDAOImpl();
 		String codigo = request.getParameter("codigo");
 		String nombre = request.getParameter("nombre");
 		Producto fab = new Producto();
@@ -152,7 +156,7 @@ public class ProductosServlet extends HttpServlet {
 			int id = Integer.parseInt(codigo);
 			fab.setIdProducto(id);
 			fab.setNombre(nombre);
-			fabDAO.update(fab);
+			prodDAO.update(fab);
 			
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
@@ -164,14 +168,14 @@ public class ProductosServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 	{
 		RequestDispatcher dispatcher;
-		ProductoDAO fabDAO = new ProductoDAOImpl();
+		ProductoDAO prodDAO = new ProductoDAOImpl();
 		String codigo = request.getParameter("codigo");
 		
 		try {
 			
 			int id = Integer.parseInt(codigo);
 		
-		fabDAO.delete(id);
+		prodDAO.delete(id);
 			
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();

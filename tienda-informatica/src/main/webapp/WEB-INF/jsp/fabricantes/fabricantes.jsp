@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@page import="org.iesbelen.model.Fabricante"%>
 <%@page import="java.util.List"%>
+<%@ page import="org.iesbelen.model.FabricanteDTO" %>
 
 <!DOCTYPE html>
 <html>
@@ -38,8 +39,9 @@
 			<hr/>
 		</div>
 		<div class="clearfix">
-			<div style="float: left;width: 33%">Código</div>
-			<div style="float: left;width: 33%">Nombre</div>
+			<div style="float: left;width: 22%">Código</div>
+			<div style="float: left;width: 22%">Nombre</div>
+			<div style="float: left;width: 22%">Nº Productos</div>
 			<div style="float: none;width: auto;overflow: hidden;">Acción</div>
 		</div>
 		<div class="clearfix">
@@ -47,14 +49,15 @@
 		</div>
 	<% 
         if (request.getAttribute("listaFabricantes") != null) {
-            List<Fabricante> listaFabricante = (List<Fabricante>)request.getAttribute("listaFabricantes");
+            List<FabricanteDTO> listaFabricante = (List<FabricanteDTO>)request.getAttribute("listaFabricantes");
             
-            for (Fabricante fabricante : listaFabricante) {
+            for (FabricanteDTO fabricante : listaFabricante) {
     %>
 
 		<div style="margin-top: 6px;" class="clearfix">
-			<div style="float: left;width: 33%"><%= fabricante.getIdFabricante()%></div>
-			<div style="float: left;width: 33%"><%= fabricante.getNombre()%></div>
+			<div style="float: left;width: 22%"><%= fabricante.getIdFabricante()%></div>
+			<div style="float: left;width: 22%"><%= fabricante.getNombre()%></div>
+			<div style="float: left;width: 22%"><%= fabricante.getNumProductos()%></div>
 			<div style="float: none;width: auto;overflow: hidden;">
 				<form action="${pageContext.request.contextPath}/tienda/fabricantes/<%= fabricante.getIdFabricante()%>" style="display: inline;">
     				<input type="submit" value="Ver Detalle" />
