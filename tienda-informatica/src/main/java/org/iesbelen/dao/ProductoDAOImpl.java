@@ -53,7 +53,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 	}
 
 	/**
-	 * Devuelve lista con todos loa fabricantes.
+	 * Devuelve lista con todos los productos.
 	 */
 	@Override
 	public List<Producto> getAll() {

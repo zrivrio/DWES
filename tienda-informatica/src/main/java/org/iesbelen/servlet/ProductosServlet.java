@@ -6,11 +6,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.iesbelen.dao.FabricanteDAO;
+import org.iesbelen.dao.FabricanteDAOImpl;
 import org.iesbelen.dao.ProductoDAO;
 import org.iesbelen.dao.ProductoDAOImpl;
+import org.iesbelen.model.Fabricante;
+import org.iesbelen.model.FabricanteDTO;
 import org.iesbelen.model.Producto;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "productosServlet", value = "/tienda/productos/*")
 public class ProductosServlet extends HttpServlet {
@@ -39,7 +44,7 @@ public class ProductosServlet extends HttpServlet {
 			//GET 
 			//	/productos/
 			//	/productos
-			
+
 			request.setAttribute("listaProductos", fabDAO.getAll());
 			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/productos.jsp");
 			        		       
@@ -56,10 +61,17 @@ public class ProductosServlet extends HttpServlet {
 			String[] pathParts = pathInfo.split("/");
 			
 			if (pathParts.length == 2 && "crear".equals(pathParts[1])) {
-				
+
+				FabricanteDAO fabDAO = new FabricanteDAOImpl();
+				List<Fabricante> listaFabricantes = fabDAO.getAll();
+				List<FabricanteDTO> fabricanteDTOS = listaFabricantes.stream()
+						.map(fabricante -> new FabricanteDTO(fabricante, fabDAO.getCountProductos(fabricante.getIdFabricante()).orElse(0)))
+						.toList();
+
+				request.setAttribute("listaFabricantes", fabricanteDTOS);
 				// GET
 				// /productos/crear
-				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/crear-producto.jsp");
+				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/crear-producto.jsp");
         												
 			
 			} else if (pathParts.length == 2) {
@@ -67,8 +79,9 @@ public class ProductosServlet extends HttpServlet {
 				// GET
 				// /productos/{id}
 				try {
+
 					request.setAttribute("producto",fabDAO.find(Integer.parseInt(pathParts[1])));
-					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/detalle-producto.jsp");
+					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp//productos/detalle-producto.jsp");
 
 				} catch (NumberFormatException nfe) {
 					nfe.printStackTrace();
@@ -82,7 +95,7 @@ public class ProductosServlet extends HttpServlet {
 				// /productos/editar/{id}
 				try {
 					request.setAttribute("producto",fabDAO.find(Integer.parseInt(pathParts[2])));
-					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/editar-producto.jsp");
+					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp//productos/editar-producto.jsp");
 					        								
 				} catch (NumberFormatException nfe) {
 					nfe.printStackTrace();
@@ -108,19 +121,20 @@ public class ProductosServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		RequestDispatcher dispatcher;
-		String __method__ = request.getMethod();
-		
+		String __method__ = request.getParameter("__method__");
+		System.out.println(__method__);
 		if (__method__ == null) {
 			// Crear uno nuevo
 			ProductoDAO prodDAO = new ProductoDAOImpl();
 			
 			String nombre = request.getParameter("nombre");
 			Double precio = Double.parseDouble(request.getParameter("precio"));
-			Integer idFabricante = Integer.parseInt(request.getParameter("idFabricante"));
+			Integer idFabricante = Integer.parseInt(request.getParameter("fab"));
 			Producto nuevoProd = new Producto();
+
 			nuevoProd.setNombre(nombre);
 			nuevoProd.setPrecio(precio);
-			nuevoProd.setIdProducto(idFabricante);
+			nuevoProd.setCodigo_fabricante(idFabricante);
 			prodDAO.create(nuevoProd);
 			
 		} else if (__method__ != null && "put".equalsIgnoreCase(__method__)) {			
