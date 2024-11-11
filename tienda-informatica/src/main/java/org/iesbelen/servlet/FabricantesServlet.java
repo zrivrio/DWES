@@ -2,6 +2,7 @@ package org.iesbelen.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,21 +38,57 @@ public class FabricantesServlet extends HttpServlet {
 		RequestDispatcher dispatcher;
 				
 		String pathInfo = request.getPathInfo(); //
-			
+		FabricanteDAO fabDAO = new FabricanteDAOImpl();
+		List<Fabricante> listaFabricantes = fabDAO.getAll();
+		List<FabricanteDTO> fabricanteDTOS = listaFabricantes.stream()
+				.map(fabricante -> new FabricanteDTO(fabricante, fabDAO.getCountProductos(fabricante.getIdFabricante()).orElse(0)))
+				.toList();
+
 		if (pathInfo == null || "/".equals(pathInfo)) {
-			FabricanteDAO fabDAO = new FabricanteDAOImpl();
+
 			
 			//GET 
 			//	/fabricantes/
 			//	/fabricantes
-			List<Fabricante> listaFabricantes = fabDAO.getAll();
-			List<FabricanteDTO> fabricanteDTOS = listaFabricantes.stream()
-					.map(fabricante -> new FabricanteDTO(fabricante, fabDAO.getCountProductos(fabricante.getIdFabricante()).orElse(0)))
-					.toList();
-			
+
 			request.setAttribute("listaFabricantes", fabricanteDTOS);
 			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/fabricantes/fabricantes.jsp");
-			        		       
+
+
+
+				System.out.println("hola");
+				List<FabricanteDTO> listaOrdenar = fabricanteDTOS;
+				String orden_por = request.getParameter("orden-por");
+				String modo_ordenar = request.getParameter("orden-por");
+
+				if (orden_por != null && modo_ordenar != null) {
+					if(orden_por.equals("nombre")){
+						if (modo_ordenar.equals("asc")) {
+							listaOrdenar = fabricanteDTOS.stream().sorted(Comparator.comparing(Fabricante::getNombre)).toList();
+
+						}
+						else if (modo_ordenar.equals("desc")) {
+							listaOrdenar = fabricanteDTOS.stream().sorted(Comparator.comparing(Fabricante::getNombre).reversed()).toList();
+
+						}
+					}
+					else if(orden_por.equals("codigo")){
+						if (modo_ordenar.equals("asc")) {
+							listaOrdenar = fabricanteDTOS.stream().sorted(Comparator.comparing(Fabricante::getIdFabricante)).toList();
+
+						}
+						else if (modo_ordenar.equals("desc")) {
+							listaOrdenar = fabricanteDTOS.stream().sorted(Comparator.comparing(Fabricante::getIdFabricante).reversed()).toList();
+
+						}
+					}
+				}
+
+
+				request.setAttribute("listaFabricantes", listaOrdenar);
+				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/fabricantes/fabricantes.jsp");
+
+
 		} else {
 			// GET
 			// 		/fabricantes/{id}
@@ -63,15 +100,16 @@ public class FabricantesServlet extends HttpServlet {
 			
 			pathInfo = pathInfo.replaceAll("/$", "");
 			String[] pathParts = pathInfo.split("/");
-			
-			if (pathParts.length == 2 && "crear".equals(pathParts[1])) {
+
+
+			 if (pathParts.length == 2 && "crear".equals(pathParts[1])) {
 				
 				// GET
 				// /fabricantes/crear
 				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/fabricantes/crear-fabricante.jsp");
 
 			} else if (pathParts.length == 2) {
-				FabricanteDAO fabDAO = new FabricanteDAOImpl();
+
 				// GET
 				// /fabricantes/{id}
 				try {
@@ -87,7 +125,7 @@ public class FabricantesServlet extends HttpServlet {
 					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/fabricantes/fabricantes.jsp");
 				}
 			} else if (pathParts.length == 3 && "editar".equals(pathParts[1]) ) {
-				FabricanteDAO fabDAO = new FabricanteDAOImpl();
+
 				
 				// GET
 				// /fabricantes/editar/{id}

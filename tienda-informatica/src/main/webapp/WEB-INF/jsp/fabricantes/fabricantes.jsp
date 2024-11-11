@@ -39,6 +39,29 @@
 			<hr/>
 		</div>
 		<div class="clearfix">
+			<form action="${pageContext.request.contextPath}/tienda/fabricantes" style="display: inline;" method="get">
+
+				<div style="float: left;width: 33%">
+					<label>ORDENAR</label>
+					<select name="ordenar-por">
+						<option value="nombre">nombre</option>
+						<option value="codigo">codigo</option>
+					</select>
+				</div>
+				<div style="float: left;width: 33%">
+					<label>MODO</label>
+					<select name="modo-ordenar">
+						<option value="asc">asc</option>
+						<option value="desc">desc</option>
+					</select>
+				</div>
+				<div style="float: left;width: 33%">
+					<input type="submit" value="Ordenar" />
+				</div>
+			</form>
+		</div>
+		<hr/>
+		<div class="clearfix">
 			<div style="float: left;width: 22%">Código</div>
 			<div style="float: left;width: 22%">Nombre</div>
 			<div style="float: left;width: 22%">Nº Productos</div>

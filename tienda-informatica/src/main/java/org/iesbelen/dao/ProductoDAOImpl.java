@@ -184,7 +184,8 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
         	ps = conn.prepareStatement("DELETE FROM productos WHERE idProducto = ?");
         	int idx = 1;        	
         	ps.setInt(idx, id);
-        	
+
+
         	int rows = ps.executeUpdate();
         	
         	if (rows == 0) 
