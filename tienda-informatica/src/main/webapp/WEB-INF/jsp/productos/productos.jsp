@@ -16,25 +16,34 @@
 			clear: both;
 		}
 	</style>
+	<%@ include file="/WEB-INF/jsp/fragmentos/estilo.jspf" %>
 </head>
 <body>
-<body>
-
+<%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
+<main class = "body_sec">
+	<section id="Content">
 	<div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
 		<div class="clearfix">
 			<div style="float: left; width: 50%">
 				<h1>Productos</h1>
 			</div>
 			<div style="float: none;width: auto;overflow: hidden;min-height: 80px;position: relative;">
-				
+
 				<div style="position: absolute; left: 39%; top : 39%;">
-					
+
 						<form action="${pageContext.request.contextPath}/tienda/productos/crear">
 							<input type="submit" value="Crear">
 						</form>
 					</div>
 				
 			</div>
+		</div>
+		<div>
+			<form action="${pageContext.request.contextPath}/tienda/productos/" style="display: inline;" method="get">
+			<input type="search" name="filtrar-por-nombre">
+				<input type="submit" value="Filtrar">
+			</form>
 		</div>
 		<div class="clearfix">
 			<hr/>
@@ -80,6 +89,8 @@
 		No hay registros de producto
 	<% } %>
 	</div>
+	</section>
+	</main>
 </body>
-</body>
+<%@ include file ="/WEB-INF/jsp/fragmentos/footer.jspf"%>
 </html>

@@ -16,10 +16,14 @@
 			clear: both;
 		}
 	</style>
+	<%@ include file="/WEB-INF/jsp/fragmentos/estilo.jspf" %>
 </head>
 <body>
-<body>
+<main class = "body_sec">
+	<section id="Content">
 
+<%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
 	<div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
 		<div class="clearfix">
 			<div style="float: left; width: 50%">
@@ -56,7 +60,7 @@
 					</select>
 				</div>
 				<div style="float: left;width: 33%">
-					<input type="submit" value="Ordenar" />
+					<input type="submit" name="filtrar-por-nombre" value="Ordenar" />
 				</div>
 			</form>
 		</div>
@@ -103,6 +107,8 @@
 		No hay registros de fabricante
 	<% } %>
 	</div>
+	</section>
+</main>
 </body>
-</body>
+<%@ include file ="/WEB-INF/jsp/fragmentos/footer.jspf"%>
 </html>

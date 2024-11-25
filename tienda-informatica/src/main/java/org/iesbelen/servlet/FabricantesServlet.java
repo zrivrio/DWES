@@ -56,7 +56,6 @@ public class FabricantesServlet extends HttpServlet {
 
 
 
-				System.out.println("hola");
 				List<FabricanteDTO> listaOrdenar = fabricanteDTOS;
 				String orden_por = request.getParameter("orden-por");
 				String modo_ordenar = request.getParameter("orden-por");

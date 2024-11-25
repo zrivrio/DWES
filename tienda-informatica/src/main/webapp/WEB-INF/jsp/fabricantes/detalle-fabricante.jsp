@@ -14,11 +14,14 @@
 	display: block;
 	clear: both;
 }
-
 </style>
+	<%@ include file ="/WEB-INF/jsp/fragmentos/estilo.jspf"%>
 </head>
 <body>
-
+<%@ include file ="/WEB-INF/jsp/fragmentos/header.jspf"%>
+<%@ include file ="/WEB-INF/jsp/fragmentos/nav.jspf"%>
+<main class = "body_sec">
+	<section id="Content">
 <div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
 		<div class="clearfix">
 			<div style="float: left; width: 50%">
@@ -75,5 +78,9 @@
 		
 </div>
 
+
+	</section>
+</main>
 </body>
+<%@ include file ="/WEB-INF/jsp/fragmentos/footer.jspf"%>
 </html>

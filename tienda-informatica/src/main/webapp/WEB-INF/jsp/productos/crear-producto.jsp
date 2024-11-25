@@ -17,9 +17,13 @@
         }
 
     </style>
+    <%@ include file="/WEB-INF/jsp/fragmentos/estilo.jspf" %>
 </head>
 <body>
-
+<%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
+<main class = "body_sec">
+    <section id="Content">
 <div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
     <form action="${pageContext.request.contextPath}/tienda/productos/crear/" method="post">
         <div class="clearfix">
@@ -84,6 +88,8 @@
 
     </form>
 </div>
-
+</section>
+</main>
 </body>
+<%@ include file ="/WEB-INF/jsp/fragmentos/footer.jspf"%>
 </html>

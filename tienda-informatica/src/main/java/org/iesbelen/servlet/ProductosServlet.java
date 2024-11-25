@@ -45,9 +45,21 @@ public class ProductosServlet extends HttpServlet {
 			//	/productos/
 			//	/productos
 
+
+
 			request.setAttribute("listaProductos", fabDAO.getAll());
 			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/productos.jsp");
-			        		       
+
+			String nombre = request.getParameter("filtrar-por-nombre");
+
+			if (nombre != null && !nombre.isEmpty()) {
+				request.setAttribute("listaProductos", fabDAO.filtro(nombre));
+				System.out.println(nombre);
+			}else {
+				request.setAttribute("listaProductos", fabDAO.getAll());
+			}
+
+
 		} else {
 			// GET
 			// 		/productos/{id}
