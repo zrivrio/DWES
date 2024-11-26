@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jdk.jshell.execution.Util;
 import org.iesbelen.dao.FabricanteDAO;
 import org.iesbelen.dao.FabricanteDAOImpl;
 import org.iesbelen.dao.UsuarioDAO;
@@ -13,11 +14,13 @@ import org.iesbelen.dao.UsuarioDAOImpl;
 import org.iesbelen.model.Fabricante;
 import org.iesbelen.model.FabricanteDTO;
 import org.iesbelen.model.Usuario;
-
+import org.iesbelen.utilities.util;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
+import java.util.List;
+
 
 @WebServlet(name = "usuariosServlet", value = "/tienda/usuarios/*")
 public class UsuariosServlet extends HttpServlet {
@@ -58,6 +61,8 @@ public class UsuariosServlet extends HttpServlet {
             // 		/usuarios/edit/{id}/
             // 		/usuarios/crear
             // 		/usuarios/crear/
+            //      /usuarios/login
+            //      /usuarios/login/
 
             pathInfo = pathInfo.replaceAll("/$", "");
             String[] pathParts = pathInfo.split("/");
@@ -69,6 +74,8 @@ public class UsuariosServlet extends HttpServlet {
                 // /usuarios/crear
                 dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/crear-usuario.jsp");
 
+            } else if (pathParts.length == 2 && "login".equals(pathParts[1])) {
+                dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/login.jsp");
             } else if (pathParts.length == 2) {
 
                 // GET
@@ -117,11 +124,15 @@ public class UsuariosServlet extends HttpServlet {
 
             String usuario = request.getParameter("usuario");
             String contrasena = request.getParameter("contrasena");
-            String rol = request.getParameter("rol");
-
             Usuario nuevoUsuario = new Usuario();
             nuevoUsuario.setUsuario(usuario);
-            nuevoUsuario.setPassword(contrasena);
+            try {
+                String hash = util.hashPassword(contrasena);
+                nuevoUsuario.setPassword(hash);
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
+            String rol = request.getParameter("rol");
             nuevoUsuario.setRol(rol);
             usuarioDAO.create(nuevoUsuario);
 
@@ -181,4 +192,5 @@ public class UsuariosServlet extends HttpServlet {
             nfe.printStackTrace();
         }
     }
+
 }

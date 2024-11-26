@@ -44,7 +44,7 @@
         <hr/>
       </div>
 
-      <% 	Optional<Producto> producto = (Optional<Producto>) request.getAttribute("productos");
+      <% 	Optional<Producto> producto = (Optional<Producto>) request.getAttribute("producto");
         if (producto.isPresent()) {
       %>
 

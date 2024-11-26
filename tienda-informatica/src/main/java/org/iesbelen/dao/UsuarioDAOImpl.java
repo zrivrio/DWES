@@ -118,7 +118,9 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
                 Usuario usuario = new Usuario();
                 idx = 1;
                 usuario.setIdUsuario(rs.getInt(idx++));
-                usuario.setUsuario(rs.getString(idx));
+                usuario.setUsuario(rs.getString(idx++));
+                usuario.setPassword(rs.getString(idx++));
+                usuario.setRol(rs.getString(idx++));
 
                 return Optional.of(usuario);
             }

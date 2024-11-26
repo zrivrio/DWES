@@ -1,9 +1,10 @@
 
 <nav class="menu">
     <a href="/tienda_informatica_war/">HOME</a>
-    <a href="./fabricantes/">Frabricantes</a>
-    <a href="./productos/">Producto</a>
+    <a href="/tienda_informatica_war/tienda/fabricantes/">Frabricantes</a>
+    <a href="/tienda_informatica_war/tienda/productos/">Producto</a>
+    <a href="/tienda_informatica_war/tienda/usuarios/">Usuarios</a>
     <div class="menu-log">
-        <a href="../#">LOGIN</a>
+        <a href="${pageContext.request.contextPath}/tienda/usuarios/login">Login</a>
     </div>
 </nav>

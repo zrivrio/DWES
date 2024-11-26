@@ -67,7 +67,7 @@
           <label>Contraseña</label>
         </div>
         <div style="float: none;width: auto;overflow: hidden;">
-          <input value="<%= usuario.get().getPassword() %>" readonly="readonly"/>
+          <input value="<%= usuario.get().getPassword().substring(0,4) %>" readonly="readonly"/>
         </div>
         <div style="float: left;width: 50%">
           <label>Rol</label>
