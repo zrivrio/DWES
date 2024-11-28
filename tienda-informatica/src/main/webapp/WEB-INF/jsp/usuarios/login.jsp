@@ -23,6 +23,7 @@
 <body>
 <%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
 <%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
+
 <main class = "body_sec">
   <section id="Content">
     <div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
@@ -39,11 +40,12 @@
 
           </div>
         </div>
-
+      </form>
+        <form action="${pageContext.request.contextPath}/tienda/usuarios/login/" method="post" style="display: inline;">
         <div class="clearfix">
           <hr/>
         </div>
-
+          <input type="hidden" name="__method__" value="login"/>
         <div style="margin-top: 6px;" class="clearfix">
           <div style="margin-top: 6px;" class="clearfix">
             <div style="float: left;width: 50%">
@@ -63,11 +65,13 @@
           </div>
           <div style="margin-top: 6px;" class="clearfix">
             <div style="float: none;width: auto;overflow: hidden;">
+              <input type="hidden" name="__method__" value="login"/>
               <input type="submit" name="Iniciar Sesion" />
             </div>
           </div>
         </div>
       </form>
+
     </div>
   </section>
 </main>

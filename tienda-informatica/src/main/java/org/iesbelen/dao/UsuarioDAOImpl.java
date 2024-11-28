@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.iesbelen.model.Fabricante;
-import org.iesbelen.model.FabricanteDTO;
 import org.iesbelen.model.Usuario;
 
 public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
@@ -201,4 +199,42 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
 
     }
 
-}
+    @Override
+    public Optional<Usuario> login(String nombreusuario) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = connectDB();
+
+            ps = conn.prepareStatement("SELECT * FROM usuarios WHERE usuario = ?");
+
+            int idx = 1;
+            ps.setString(idx, nombreusuario);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Usuario usuario = new Usuario();
+                idx = 1;
+                usuario.setIdUsuario(rs.getInt(idx++));
+                usuario.setUsuario(rs.getString(idx++));
+                usuario.setPassword(rs.getString(idx++));
+                usuario.setRol(rs.getString(idx++));
+
+                return Optional.of(usuario);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            closeDb(conn, ps, rs);
+        }
+
+        return Optional.empty();
+    }
+
+    }

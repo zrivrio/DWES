@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jdk.jshell.execution.Util;
 import org.iesbelen.dao.FabricanteDAO;
 import org.iesbelen.dao.FabricanteDAOImpl;
@@ -136,6 +137,9 @@ public class UsuariosServlet extends HttpServlet {
             nuevoUsuario.setRol(rol);
             usuarioDAO.create(nuevoUsuario);
 
+        } else if (__method__ != null && "login".equalsIgnoreCase(__method__)) {
+            doLogin(request, response);
+
         } else if (__method__ != null && "put".equalsIgnoreCase(__method__)) {
             // Actualizar uno existente
             //Dado que los forms de html sólo soportan method GET y POST utilizo parámetro oculto para indicar la operación de actulización PUT.
@@ -192,5 +196,33 @@ public class UsuariosServlet extends HttpServlet {
             nfe.printStackTrace();
         }
     }
+    protected void doLogin(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher dispatcher;
+        // Logea uno existente
+        UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
+        String usuario = request.getParameter("usuario");
+        String contrasena = request.getParameter("contrasena");
+        String contrasena2 = null;
+
+        try {
+            contrasena2 = util.hashPassword(contrasena);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
+        Optional<Usuario> us = usuarioDAO.login(usuario);
+        if (us.isPresent() && contrasena2.equals(us.get().getPassword())) {
+            // Si el usuario está presente y las contraseñas coinciden
+            HttpSession session = request.getSession(true);
+            session.setAttribute("usuario-logado",us);
+        } else {
+            // Si el login falla, puedes redirigir a la página de login nuevamente con un mensaje de error
+            request.setAttribute("errorMessage", "Usuario o contraseña incorrectos.");
+            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/");
+            dispatcher.forward(request, response);
+        }
+    }
+
 
 }

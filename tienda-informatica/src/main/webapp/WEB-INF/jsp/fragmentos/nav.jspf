@@ -1,3 +1,5 @@
+<%@ page import="org.iesbelen.model.Usuario" %>
+<%@ page import="java.util.Optional" %>
 
 <nav class="menu">
     <a href="/tienda_informatica_war/">HOME</a>
@@ -5,6 +7,15 @@
     <a href="/tienda_informatica_war/tienda/productos/">Producto</a>
     <a href="/tienda_informatica_war/tienda/usuarios/">Usuarios</a>
     <div class="menu-log">
+        <%   // Obtener el usuario logueado de la sesión
+            Optional<Usuario> us = (Optional<Usuario>) session.getAttribute("usuario-logado");
+            if (us != null && us.isPresent()) {
+        %>
+
+        <h1>Bienvenido, <%= us.get().getUsuario() %></h1>
+        <%
+            }
+        %>
         <a href="${pageContext.request.contextPath}/tienda/usuarios/login">Login</a>
     </div>
 </nav>
