@@ -27,20 +27,11 @@
 <main class = "body_sec">
   <section id="Content">
     <div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
-      <form action="${pageContext.request.contextPath}/tienda/usuarios/" method="post">
         <div class="clearfix">
           <div style="float: left; width: 50%">
             <h1>Iniciar Sesion</h1>
           </div>
-          <div style="float: none;width: auto;overflow: hidden;min-height: 80px;position: relative;">
-
-            <div style="position: absolute; left: 39%; top : 39%;">
-              <input type="submit" value="Volver"/>
-            </div>
-
-          </div>
         </div>
-      </form>
         <form action="${pageContext.request.contextPath}/tienda/usuarios/login/" method="post" style="display: inline;">
         <div class="clearfix">
           <hr/>

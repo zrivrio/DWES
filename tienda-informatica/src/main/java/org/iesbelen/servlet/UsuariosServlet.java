@@ -206,27 +206,36 @@ public class UsuariosServlet extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
         String usuario = request.getParameter("usuario");
         String contrasena = request.getParameter("contrasena");
-        String contrasena2 = null;
 
-        try {
-            contrasena2 = util.hashPassword(contrasena);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+        // Validar si la contraseña es nula o vacía
+        if (contrasena == null || contrasena.isEmpty()) {
+            request.setAttribute("errorMessage", "La contraseña no puede estar vacía.");
+            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/login.jsp");
+            dispatcher.forward(request, response);
+            return; // Termina la ejecución del método
         }
+
+        String contrasena2 = null;
+        try {
+            contrasena2 = util.hashPassword(contrasena); // Generar el hash de la contraseña
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error al generar el hash de la contraseña.", e);
+        }
+
         Optional<Usuario> us = usuarioDAO.login(usuario);
 
-        if(us.isPresent() && contrasena2.equals(us.get().getPassword())) {
+        if (us.isPresent() && contrasena2.equals(us.get().getPassword())) {
             // Si el usuario está presente y las contraseñas coinciden
             HttpSession session = request.getSession(true);
-            session.setAttribute("usuario-logado",us);
+            session.setAttribute("usuario-logado", us.get());
             dispatcher = request.getRequestDispatcher("/");
             dispatcher.forward(request, response);
-
         } else {
             // Si el login falla, puedes redirigir a la página de login nuevamente con un mensaje de error
             request.setAttribute("errorMessage", "Usuario o contraseña incorrectos.");
-            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/");
+            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/login.jsp");
             dispatcher.forward(request, response);
         }
     }
+
 }
