@@ -7,18 +7,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jdk.jshell.execution.Util;
-import org.iesbelen.dao.FabricanteDAO;
-import org.iesbelen.dao.FabricanteDAOImpl;
 import org.iesbelen.dao.UsuarioDAO;
 import org.iesbelen.dao.UsuarioDAOImpl;
-import org.iesbelen.model.Fabricante;
-import org.iesbelen.model.FabricanteDTO;
 import org.iesbelen.model.Usuario;
 import org.iesbelen.utilities.util;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Comparator;
 import java.util.Optional;
 import java.util.List;
 
@@ -83,7 +77,7 @@ public class UsuariosServlet extends HttpServlet {
                 // /usuarios/{id}
                 try {
                     request.setAttribute("usuario",usuarioDAO.find(Integer.parseInt(pathParts[1])));
-                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp//usuarios/detalle-usuarios.jsp");
+                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/detalle-usuarios.jsp");
 
                 } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
@@ -116,6 +110,10 @@ public class UsuariosServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String pathInfo = request.getPathInfo();
+        pathInfo = pathInfo.replaceAll("/$", "");
+        String[] pathParts = pathInfo.split("/");
+
         RequestDispatcher dispatcher;
         String __method__ = request.getParameter("__method__");
 
@@ -139,6 +137,12 @@ public class UsuariosServlet extends HttpServlet {
 
         } else if (__method__ != null && "login".equalsIgnoreCase(__method__)) {
             doLogin(request, response);
+
+        }else if (__method__ != null && "logout".equalsIgnoreCase(__method__)) {
+            HttpSession session = request.getSession(true);
+            session.setAttribute("usuario-logado", null);
+            dispatcher = request.getRequestDispatcher("/");
+            dispatcher.forward(request, response);
 
         } else if (__method__ != null && "put".equalsIgnoreCase(__method__)) {
             // Actualizar uno existente
@@ -199,7 +203,6 @@ public class UsuariosServlet extends HttpServlet {
     protected void doLogin(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher dispatcher;
-        // Logea uno existente
         UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
         String usuario = request.getParameter("usuario");
         String contrasena = request.getParameter("contrasena");
@@ -210,12 +213,15 @@ public class UsuariosServlet extends HttpServlet {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
         Optional<Usuario> us = usuarioDAO.login(usuario);
-        if (us.isPresent() && contrasena2.equals(us.get().getPassword())) {
+
+        if(us.isPresent() && contrasena2.equals(us.get().getPassword())) {
             // Si el usuario está presente y las contraseñas coinciden
             HttpSession session = request.getSession(true);
             session.setAttribute("usuario-logado",us);
+            dispatcher = request.getRequestDispatcher("/");
+            dispatcher.forward(request, response);
+
         } else {
             // Si el login falla, puedes redirigir a la página de login nuevamente con un mensaje de error
             request.setAttribute("errorMessage", "Usuario o contraseña incorrectos.");
@@ -223,6 +229,4 @@ public class UsuariosServlet extends HttpServlet {
             dispatcher.forward(request, response);
         }
     }
-
-
 }

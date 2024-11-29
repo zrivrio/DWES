@@ -13,9 +13,16 @@
         %>
 
         <h1>Bienvenido, <%= us.get().getUsuario() %></h1>
+        <form action="${pageContext.request.contextPath}/tienda/usuarios/logout/" method="post" style="display: inline;">
+            <input type="hidden" name="__method__" value="logout"/>
+            <button type="submit" class="btn">Logout </button>
+        </form>
+        <%
+            }else{
+        %>
+        <a href="${pageContext.request.contextPath}/tienda/usuarios/login">Login</a>
         <%
             }
         %>
-        <a href="${pageContext.request.contextPath}/tienda/usuarios/login">Login</a>
     </div>
 </nav>
