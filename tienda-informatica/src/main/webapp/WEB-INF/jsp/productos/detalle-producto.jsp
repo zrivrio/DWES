@@ -15,8 +15,8 @@
       display: block;
       clear: both;
     }
+    <%@ include file ="/WEB-INF/jsp/fragmentos/estilo.jspf"%>
   </style>
-  <%@ include file ="/WEB-INF/jsp/fragmentos/estilo.jspf"%>
 </head>
 <body>
 <%@ include file ="/WEB-INF/jsp/fragmentos/header.jspf"%>

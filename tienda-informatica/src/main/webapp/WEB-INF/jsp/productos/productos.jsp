@@ -4,93 +4,133 @@
 <%@page import="java.util.List"%>
 <%@ page import="org.iesbelen.model.Producto" %>
 
+
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
-	<title>Productos</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Usuarios</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<style>
 		.clearfix::after {
 			content: "";
 			display: block;
 			clear: both;
 		}
+		.form-container {
+			max-width: 900px;
+			margin: 30px auto;
+		}
+		.user-actions form {
+			display: inline-block;
+			margin-right: 10px;
+		}
+		.no-users {
+			text-align: center;
+			font-size: 18px;
+			color: #777;
+		}
+		.table th, .table td {
+			text-align: center;
+			vertical-align: middle;
+		}
+		.table {
+			margin-top: 20px;
+		}
+		.btn-sm {
+			padding: 5px 10px;
+		}
 	</style>
 	<%@ include file="/WEB-INF/jsp/fragmentos/estilo.jspf" %>
 </head>
 <body>
+
 <%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
 <%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
-<main class = "body_sec">
+
+<main class="body_sec m-4">
 	<section id="Content">
-	<div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
-		<div class="clearfix">
-			<div style="float: left; width: 50%">
-				<h1>Productos</h1>
+		<div class="form-container">
+			<div class="clearfix mb-4">
+				<div style="float: left; width: 50%">
+					<h1>Usuarios</h1>
+				</div>
+				<% Usuario usuario = (Usuario) session.getAttribute("usuario-logado");
+					String rol = (usuario != null) ? usuario.getRol() : " ";
+					if ("administrador".equals(rol)) { %>
+				<div style="float: none;width: auto; overflow: hidden;">
+					<form action="${pageContext.request.contextPath}/tienda/usuarios/crear" style="float: right;">
+						<input type="submit" class="btn btn-primary" value="Crear Usuario">
+					</form>
+				</div>
+				<% } %>
 			</div>
-			<div style="float: none;width: auto;overflow: hidden;min-height: 80px;position: relative;">
 
-				<div style="position: absolute; left: 39%; top : 39%;">
-
-						<form action="${pageContext.request.contextPath}/tienda/productos/crear">
-							<input type="submit" value="Crear">
-						</form>
-					</div>
-				
-			</div>
-		</div>
-		<div>
-			<form action="${pageContext.request.contextPath}/tienda/productos/" style="display: inline;" method="get">
-			<input type="search" name="filtrar-por-nombre">
-				<input type="submit" value="Filtrar">
-			</form>
-		</div>
-		<div class="clearfix">
-			<hr/>
-		</div>
-		<div class="clearfix">
-			<div style="float: left;width: 10%">Código</div>
-			<div style="float: left;width: 30%">Nombre</div>
-			<div style="float: left;width: 20%">Precio</div>
-			<div style="float: left;width: 20%;overflow: hidden;">Acción</div>
-		</div>
-		<div class="clearfix">
-			<hr/>
-		</div>
-	<% 
-        if (request.getAttribute("listaProductos") != null) {
-            List<Producto> listaProducto= (List<Producto>)request.getAttribute("listaProductos");
-            
-            for (Producto producto : listaProducto) {
-    %>
-
-		<div style="margin-top: 6px;" class="clearfix">
-			<div style="float: left;width: 10%"><%= producto.getIdProducto()%></div>
-			<div style="float: left;width: 30%"><%= producto.getNombre()%></div>
-			<div style="float: left;width: 20%"><%= producto.getPrecio()%></div>
-			<div style="float: none;width: auto;overflow: hidden;">
-				<form action="${pageContext.request.contextPath}/tienda/productos/<%= producto.getIdProducto()%>" style="display: inline;">
-    				<input type="submit" value="Ver Detalle" />
-				</form>
-				<form action="${pageContext.request.contextPath}/tienda/productos/editar/<%= producto.getIdProducto()%>" style="display: inline;">
-    				<input type="submit" value="Editar" />
-				</form>
-				<form action="${pageContext.request.contextPath}/tienda/productos/borrar/" method="post" style="display: inline;">
-					<input type="hidden" name="__method__" value="delete"/>
-					<input type="hidden" name="codigo" value="<%= producto.getIdProducto()%>"/>
-    				<input type="submit" value="Eliminar" />
+			<div class="clearfix mb-4">
+				<form action="${pageContext.request.contextPath}/tienda/usuarios/" method="get" class="d-flex justify-content-end">
+					<input type="search" name="filtrar-por-nombre" class="form-control me-2" placeholder="Filtrar por nombre">
+					<button type="submit" class="btn btn-secondary">Filtrar</button>
 				</form>
 			</div>
+
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+					<tr>
+						<th style="width: 10%;">Código</th>
+						<th style="width: 30%;">Usuario</th>
+						<th style="width: 20%;">Contraseña</th>
+						<th style="width: 20%;">Rol</th>
+						<% if ("administrador".equals(rol)) { %>
+						<th style="width: 20%;">Acciones</th>
+						<% } %>
+					</tr>
+					</thead>
+					<tbody>
+					<%
+						if (request.getAttribute("listaUsuario") != null) {
+							List<Usuario> listaUsuario = (List<Usuario>) request.getAttribute("listaUsuario");
+							for (Usuario usuarioItem : listaUsuario) {
+					%>
+					<tr>
+						<td><%= usuarioItem.getIdUsuario() %></td>
+						<td><%= usuarioItem.getUsuario() %></td>
+						<td><%= usuarioItem.getPassword().substring(0, 4) %></td>
+						<td><%= usuarioItem.getRol() %></td>
+						<% if ("administrador".equals(rol)) { %>
+						<td class="user-actions">
+							<form action="${pageContext.request.contextPath}/tienda/usuarios/<%= usuarioItem.getIdUsuario() %>" style="display: inline;">
+								<input type="submit" class="btn btn-info btn-sm" value="Ver Detalle" />
+							</form>
+							<form action="${pageContext.request.contextPath}/tienda/usuarios/editar/<%= usuarioItem.getIdUsuario() %>" style="display: inline;">
+								<input type="submit" class="btn btn-warning btn-sm" value="Editar" />
+							</form>
+							<form action="${pageContext.request.contextPath}/tienda/usuarios/borrar/" method="post" style="display: inline;">
+								<input type="hidden" name="__method__" value="delete"/>
+								<input type="hidden" name="codigo" value="<%= usuarioItem.getIdUsuario() %>"/>
+								<input type="submit" class="btn btn-danger btn-sm" value="Eliminar" />
+							</form>
+						</td>
+						<% } %>
+					</tr>
+					<%
+						}
+					} else {
+					%>
+					<tr>
+						<td colspan="5" class="no-users">No hay registros de Usuarios.</td>
+					</tr>
+					<% } %>
+					</tbody>
+				</table>
+			</div>
 		</div>
-	<% 
-            }
-        } else { 
-    %>
-		No hay registros de producto
-	<% } %>
-	</div>
 	</section>
-	</main>
+</main>
+
+<%@ include file="/WEB-INF/jsp/fragmentos/footer.jspf" %>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0+Wv0vQWzFhVAqOG7xzw8lLa+d/b9huL3n2Qv3wUDeYsZkwv" crossorigin="anonymous"></script>
 </body>
-<%@ include file ="/WEB-INF/jsp/fragmentos/footer.jspf"%>
 </html>

@@ -15,8 +15,8 @@
 	display: block;
 	clear: both;
 }
+<%@ include file="/WEB-INF/jsp/fragmentos/estilo.jspf" %>
 </style>
-	<%@ include file ="/WEB-INF/jsp/fragmentos/estilo.jspf"%>
 </head>
 <body>
 <%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
@@ -31,14 +31,14 @@
 				<h1>Editar Fabricante</h1>
 			</div>
 			<div style="float: none;width: auto;overflow: hidden;min-height: 80px;position: relative;">
-				
+
 				<div style="position: absolute; left: 39%; top : 39%;">
 					<input type="submit" value="Guardar" />
 				</div>
-				
+
 			</div>
 		</div>
-		
+
 		<div class="clearfix">
 			<hr/>
 		</div>
