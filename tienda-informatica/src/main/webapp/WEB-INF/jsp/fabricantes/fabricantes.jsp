@@ -74,8 +74,11 @@
 		<div class="clearfix">
 			<hr/>
 		</div>
-	<% 
-        if (request.getAttribute("listaFabricantes") != null) {
+	<%
+		Usuario usuario = (Usuario) session.getAttribute("usuario-logado");
+		String rol = (usuario != null) ? usuario.getRol() : " ";
+		if ("administrador".equals(rol)){
+		if (request.getAttribute("listaFabricantes") != null) {
             List<FabricanteDTO> listaFabricante = (List<FabricanteDTO>)request.getAttribute("listaFabricantes");
             
             for (FabricanteDTO fabricante : listaFabricante) {
@@ -100,9 +103,9 @@
 			</div>
 		</div>
 
-	<% 
-            }
-        } else { 
+	<%			}
+			}
+		} else {
     %>
 		No hay registros de fabricante
 	<% } %>

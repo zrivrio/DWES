@@ -1,5 +1,4 @@
 <%@ page import="org.iesbelen.model.Usuario" %>
-<%@ page import="java.util.Optional" %>
 
 <nav class="menu">
     <a href="/tienda_informatica_war/">HOME</a>
@@ -7,20 +6,26 @@
     <a href="/tienda_informatica_war/tienda/productos/">Producto</a>
     <a href="/tienda_informatica_war/tienda/usuarios/">Usuarios</a>
     <div class="menu-log">
-        <%   // Obtener el usuario logueado de la sesión
-            Optional<Usuario> us = (Optional<Usuario>) session.getAttribute("usuario-logado");
-if (us != null && us.isPresent()) {%>
-    <h1>Bienvenido, <%= us.get().getUsuario() %></h1>
+        <%
+            Usuario us = (Usuario) session.getAttribute("usuario-logado");
+            if (us != null) {
+        %>
+        <h1>Bienvenido, <%= us.getUsuario() %></h1>
         <form action="${pageContext.request.contextPath}/tienda/usuarios/logout/" method="post" style="display: inline;">
             <input type="hidden" name="__method__" value="logout"/>
-            <button type="submit" class="btn">Logout </button>
+            <button type="submit" class="btn">Logout</button>
         </form>
-<% } else { %>
+        <%
+        } else {
+        %>
         <form action="${pageContext.request.contextPath}/tienda/usuarios/login/" method="post" style="display: inline;">
             <input type="hidden" name="__method__" value="login"/>
-            <button type="submit" class="btn">Login </button>
+            <button type="submit" class="btn">Login</button>
         </form>
-        <% }%>
+        <%
+            }
+        %>
+
 
 
     </div>

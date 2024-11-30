@@ -45,7 +45,7 @@ public class UsuariosFilter  implements Filter {
             chain.doFilter(request, response);
         } else if (url.endsWith("/usuarios/crear")
         || url.endsWith("/usuarios/editar")
-        || url.endsWith("/fabricantes/borrar")) {
+        || url.endsWith("/usuarios/borrar")) {
 
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/tienda/usuarios/login");
             return;
