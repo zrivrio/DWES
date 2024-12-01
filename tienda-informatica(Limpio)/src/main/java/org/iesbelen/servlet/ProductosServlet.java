@@ -9,9 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.iesbelen.dao.FabricanteDAO;
 import org.iesbelen.dao.FabricanteDAOImpl;
 import org.iesbelen.dao.ProductoDAO;
+import org.iesbelen.model.FabricantesDTO;
 import org.iesbelen.dao.ProductoDAOImpl;
 import org.iesbelen.model.Fabricante;
-import org.iesbelen.model.FabricanteDTO;
 import org.iesbelen.model.Producto;
 
 import java.io.IOException;
@@ -44,22 +44,10 @@ public class ProductosServlet extends HttpServlet {
 			//GET 
 			//	/productos/
 			//	/productos
-
-
-
+			
 			request.setAttribute("listaProductos", fabDAO.getAll());
 			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/productos.jsp");
-
-			String nombre = request.getParameter("filtrar-por-nombre");
-
-			if (nombre != null && !nombre.isEmpty()) {
-				request.setAttribute("listaProductos", fabDAO.filtro(nombre));
-				System.out.println(nombre);
-			}else {
-				request.setAttribute("listaProductos", fabDAO.getAll());
-			}
-
-
+			        		       
 		} else {
 			// GET
 			// 		/productos/{id}
@@ -76,11 +64,12 @@ public class ProductosServlet extends HttpServlet {
 
 				FabricanteDAO fabDAO = new FabricanteDAOImpl();
 				List<Fabricante> listaFabricantes = fabDAO.getAll();
-				List<FabricanteDTO> fabricanteDTOS = listaFabricantes.stream()
-						.map(fabricante -> new FabricanteDTO(fabricante, fabDAO.getCountProductos(fabricante.getIdFabricante()).orElse(0)))
+				List<FabricantesDTO> fabricanteDTOS = listaFabricantes.stream()
+						.map(fabricante -> new FabricantesDTO(fabricante, fabDAO.getCountProductos(fabricante.getIdFabricante()).orElse(0)))
 						.toList();
 
 				request.setAttribute("listaFabricantes", fabricanteDTOS);
+				
 				// GET
 				// /productos/crear
 				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/crear-producto.jsp");
@@ -91,9 +80,8 @@ public class ProductosServlet extends HttpServlet {
 				// GET
 				// /productos/{id}
 				try {
-
 					request.setAttribute("producto",fabDAO.find(Integer.parseInt(pathParts[1])));
-					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp//productos/detalle-producto.jsp");
+					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/detalle-producto.jsp");
 
 				} catch (NumberFormatException nfe) {
 					nfe.printStackTrace();
@@ -107,7 +95,7 @@ public class ProductosServlet extends HttpServlet {
 				// /productos/editar/{id}
 				try {
 					request.setAttribute("producto",fabDAO.find(Integer.parseInt(pathParts[2])));
-					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp//productos/editar-producto.jsp");
+					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/editar-producto.jsp");
 					        								
 				} catch (NumberFormatException nfe) {
 					nfe.printStackTrace();
@@ -133,21 +121,21 @@ public class ProductosServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		RequestDispatcher dispatcher;
-		String __method__ = request.getParameter("__method__");
-		System.out.println(__method__);
+		String __method__ = request.getMethod();
+		
 		if (__method__ == null) {
 			// Crear uno nuevo
-			ProductoDAO prodDAO = new ProductoDAOImpl();
-			
+			ProductoDAO fabDAO = new ProductoDAOImpl();
+
 			String nombre = request.getParameter("nombre");
 			Double precio = Double.parseDouble(request.getParameter("precio"));
-			Integer idFabricante = Integer.parseInt(request.getParameter("fab"));
-			Producto nuevoProd = new Producto();
+			int idFabricante = Integer.parseInt(request.getParameter("idFabricante"));
 
-			nuevoProd.setNombre(nombre);
-			nuevoProd.setPrecio(precio);
-			nuevoProd.setCodigo_fabricante(idFabricante);
-			prodDAO.create(nuevoProd);
+			Producto nuevoFab = new Producto();
+			nuevoFab.setNombre(nombre);
+			nuevoFab.setPrecio(precio);
+			nuevoFab.setIdProducto(idFabricante);
+			fabDAO.create(nuevoFab);			
 			
 		} else if (__method__ != null && "put".equalsIgnoreCase(__method__)) {			
 			// Actualizar uno existente
@@ -172,10 +160,9 @@ public class ProductosServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		ProductoDAO prodDAO = new ProductoDAOImpl();
+		ProductoDAO fabDAO = new ProductoDAOImpl();
 		String codigo = request.getParameter("codigo");
 		String nombre = request.getParameter("nombre");
-		Double precio = Double.parseDouble(request.getParameter("precio"));
 		Producto fab = new Producto();
 		
 		try {
@@ -183,8 +170,7 @@ public class ProductosServlet extends HttpServlet {
 			int id = Integer.parseInt(codigo);
 			fab.setIdProducto(id);
 			fab.setNombre(nombre);
-			fab.setPrecio(precio);
-			prodDAO.update(fab);
+			fabDAO.update(fab);
 			
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
@@ -196,14 +182,14 @@ public class ProductosServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 	{
 		RequestDispatcher dispatcher;
-		ProductoDAO prodDAO = new ProductoDAOImpl();
+		ProductoDAO fabDAO = new ProductoDAOImpl();
 		String codigo = request.getParameter("codigo");
 		
 		try {
 			
 			int id = Integer.parseInt(codigo);
 		
-		prodDAO.delete(id);
+		fabDAO.delete(id);
 			
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();

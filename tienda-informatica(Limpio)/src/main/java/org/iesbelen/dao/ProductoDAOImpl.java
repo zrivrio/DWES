@@ -53,7 +53,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 	}
 
 	/**
-	 * Devuelve lista con todos los productos.
+	 * Devuelve lista con todos loa fabricantes.
 	 */
 	@Override
 	public List<Producto> getAll() {
@@ -147,7 +147,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
         try {
         	conn = connectDB();
         	
-        	ps = conn.prepareStatement("UPDATE productos SET nombre = ?, precio = ?  WHERE idProducto = ?");
+        	ps = conn.prepareStatement("UPDATE producto SET nombre = ?,precio = ?  WHERE idProducto = ?");
         	int idx = 1;
         	ps.setString(idx++, producto.getNombre());
 			ps.setDouble(idx++, producto.getPrecio());
@@ -184,8 +184,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
         	ps = conn.prepareStatement("DELETE FROM productos WHERE idProducto = ?");
         	int idx = 1;        	
         	ps.setInt(idx, id);
-
-
+        	
         	int rows = ps.executeUpdate();
         	
         	if (rows == 0) 
@@ -199,46 +198,6 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
             closeDb(conn, ps, rs);
         }
 		
-	}
-
-	@Override
-	public List<Producto> filtro(String nombre) {
-
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		try {
-			conn = connectDB();
-
-			ps = conn.prepareStatement("SELECT * FROM productos WHERE nombre = ?");
-
-			int idx =  1;
-			ps.setString(idx, nombre);
-
-			rs = ps.executeQuery();
-
-			if (rs.next()) {
-				Producto prod = new Producto();
-				idx = 1;
-				prod.setIdProducto(rs.getInt(idx++));
-				prod.setNombre(rs.getString(idx++));
-				prod.setPrecio(rs.getDouble(idx++));
-				prod.setCodigo_fabricante(rs.getInt(idx++));
-
-				return List.of(prod);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			closeDb(conn, ps, rs);
-		}
-
-		return List.of();
-
 	}
 
 }

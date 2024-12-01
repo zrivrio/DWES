@@ -79,11 +79,9 @@
 						<th style="width: 10%;">Código</th>
 						<th style="width: 30%;">Nombre</th>
 						<th style="width: 20%;">Nº Productos</th>
-						<%
-							if ("administrador".equals(rol)) {
-						%>
-						<div style="width: 20%;">Acciones</div>
-						<%}%>
+						<% if ("administrador".equals(rol)) { %>
+						<th>Acciones</th>
+						<% } %>
 					</tr>
 					</thead>
 					<tbody>

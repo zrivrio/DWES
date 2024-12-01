@@ -1,19 +1,23 @@
 package org.iesbelen.dao;
 
-import org.iesbelen.model.Producto;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
+import org.iesbelen.model.Fabricante;
+
+public class FabricanteDAOImpl extends AbstractDAOImpl implements FabricanteDAO{
 
 	/**
 	 * Inserta en base de datos el nuevo fabricante, actualizando el id en el bean fabricante.
 	 */
 	@Override	
-	public synchronized void create(Producto producto) {
+	public synchronized void create(Fabricante fabricante) {
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -28,12 +32,10 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
         	//ps = conn.prepareStatement("INSERT INTO fabricantes (nombre) VALUES (?)", new String[] {"codigo"});
         	//Ver también, AbstractDAOImpl.executeInsert ...
         	//Columna fabricante.codigo es clave primaria auto_increment, por ese motivo se omite de la sentencia SQL INSERT siguiente. 
-        	ps = conn.prepareStatement("INSERT INTO productos (nombre,precio,idFabricante) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        	ps = conn.prepareStatement("INSERT INTO fabricantes (nombre) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
             
             int idx = 1;
-            ps.setString(idx++, producto.getNombre());
-			ps.setDouble(idx++, producto.getPrecio());
-			ps.setInt(idx++,producto.getCodigo_fabricante());
+            ps.setString(idx++, fabricante.getNombre());
                    
             int rows = ps.executeUpdate();
             if (rows == 0) 
@@ -41,7 +43,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
             
             rsGenKeys = ps.getGeneratedKeys();
             if (rsGenKeys.next()) 
-            	producto.setIdProducto(rsGenKeys.getInt(1));
+            	fabricante.setIdFabricante(rsGenKeys.getInt(1));
                       
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -50,19 +52,20 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 		} finally {
             closeDb(conn, ps, rs);
         }
+        
 	}
 
 	/**
-	 * Devuelve lista con todos los productos.
+	 * Devuelve lista con todos los fabricantes.
 	 */
 	@Override
-	public List<Producto> getAll() {
+	public List<Fabricante> getAll() {
 		
 		Connection conn = null;
 		Statement s = null;
         ResultSet rs = null;
         
-        List<Producto> listProd = new ArrayList<>();
+        List<Fabricante> listFab = new ArrayList<>(); 
         
         try {
         	conn = connectDB();
@@ -70,15 +73,13 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
         	// Se utiliza un objeto Statement dado que no hay parámetros en la consulta.
         	s = conn.createStatement();
             		
-        	rs = s.executeQuery("SELECT * FROM productos");
+        	rs = s.executeQuery("SELECT * FROM fabricantes");
             while (rs.next()) {
-            	Producto prod = new Producto();
+            	Fabricante fab = new Fabricante();
             	int idx = 1;
-            	prod.setIdProducto(rs.getInt(idx++));
-            	prod.setNombre(rs.getString(idx++));
-				prod.setPrecio(rs.getDouble(idx++));
-				prod.setCodigo_fabricante(rs.getInt(idx));
-            	listProd.add(prod);
+            	fab.setIdFabricante(rs.getInt(idx++));
+            	fab.setNombre(rs.getString(idx));
+            	listFab.add(fab);
             }
           
 		} catch (SQLException e) {
@@ -88,7 +89,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 		} finally {
             closeDb(conn, s, rs);
         }
-        return listProd;
+        return listFab;
         
 	}
 
@@ -96,7 +97,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 	 * Devuelve Optional de fabricante con el ID dado.
 	 */
 	@Override
-	public Optional<Producto> find(int id) {
+	public Optional<Fabricante> find(int id) {
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -105,7 +106,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
         try {
         	conn = connectDB();
         	
-        	ps = conn.prepareStatement("SELECT * FROM productos WHERE idProducto = ?");
+        	ps = conn.prepareStatement("SELECT * FROM fabricantes WHERE idFabricante = ?");
         	
         	int idx =  1;
         	ps.setInt(idx, id);
@@ -113,14 +114,12 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
         	rs = ps.executeQuery();
         	
         	if (rs.next()) {
-        		Producto prod = new Producto();
+        		Fabricante fab = new Fabricante();
         		idx = 1;
-        		prod.setIdProducto(rs.getInt(idx++));
-        		prod.setNombre(rs.getString(idx++));
-				prod.setPrecio(rs.getDouble(idx++));
-				prod.setCodigo_fabricante(rs.getInt(idx++));
+        		fab.setIdFabricante(rs.getInt(idx++));
+        		fab.setNombre(rs.getString(idx));
         		
-        		return Optional.of(prod);
+        		return Optional.of(fab);
         	}
         	
         } catch (SQLException e) {
@@ -138,7 +137,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 	 * Actualiza fabricante con campos del bean fabricante según ID del mismo.
 	 */
 	@Override
-	public void update(Producto producto) {
+	public void update(Fabricante fabricante) {
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -147,11 +146,10 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
         try {
         	conn = connectDB();
         	
-        	ps = conn.prepareStatement("UPDATE productos SET nombre = ?, precio = ?  WHERE idProducto = ?");
+        	ps = conn.prepareStatement("UPDATE fabricantes SET nombre = ?  WHERE idFabricante = ?");
         	int idx = 1;
-        	ps.setString(idx++, producto.getNombre());
-			ps.setDouble(idx++, producto.getPrecio());
-        	ps.setInt(idx, producto.getIdProducto());
+        	ps.setString(idx++, fabricante.getNombre());
+        	ps.setInt(idx, fabricante.getIdFabricante());
         	
         	int rows = ps.executeUpdate();
         	
@@ -181,11 +179,10 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
         try {
         	conn = connectDB();
         	
-        	ps = conn.prepareStatement("DELETE FROM productos WHERE idProducto = ?");
+        	ps = conn.prepareStatement("DELETE FROM fabricantes WHERE idFabricante = ?");
         	int idx = 1;        	
         	ps.setInt(idx, id);
-
-
+        	
         	int rows = ps.executeUpdate();
         	
         	if (rows == 0) 
@@ -202,7 +199,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 	}
 
 	@Override
-	public List<Producto> filtro(String nombre) {
+	public Optional<Integer> getCountProductos(int id) {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -211,22 +208,17 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 		try {
 			conn = connectDB();
 
-			ps = conn.prepareStatement("SELECT * FROM productos WHERE nombre = ?");
+			ps = conn.prepareStatement("SELECT count(*) FROM productos WHERE idFabricante = ?");
 
 			int idx =  1;
-			ps.setString(idx, nombre);
+			ps.setInt(idx, id);
 
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				Producto prod = new Producto();
+				Fabricante fab = new Fabricante();
 				idx = 1;
-				prod.setIdProducto(rs.getInt(idx++));
-				prod.setNombre(rs.getString(idx++));
-				prod.setPrecio(rs.getDouble(idx++));
-				prod.setCodigo_fabricante(rs.getInt(idx++));
-
-				return List.of(prod);
+				return Optional.of(rs.getInt(idx));
 			}
 
 		} catch (SQLException e) {
@@ -237,8 +229,6 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 			closeDb(conn, ps, rs);
 		}
 
-		return List.of();
-
+		return Optional.empty();
 	}
-
 }
