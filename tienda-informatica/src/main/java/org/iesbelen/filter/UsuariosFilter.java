@@ -41,11 +41,11 @@ public class UsuariosFilter  implements Filter {
 
         if(session != null
                 && (usuarios = (Usuario) session.getAttribute("usuario-logado")) != null
-                && "administrador".equals(usuarios.getRol())) {
+                && rolAcceso.equals(usuarios.getRol())) {
             chain.doFilter(request, response);
         } else if (url.endsWith("/usuarios/crear")
-        || url.endsWith("/usuarios/editar")
-        || url.endsWith("/usuarios/borrar")) {
+        || url.contains("/usuarios/editar")
+        || url.contains("/usuarios/borrar")) {
 
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/tienda/usuarios/login");
             return;
