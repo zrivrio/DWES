@@ -29,6 +29,7 @@ public class UsuariosServlet extends HttpServlet {
      * 		/usuarios/editar{id}
      * 		/usuarios/crear
      */
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -162,27 +163,27 @@ public class UsuariosServlet extends HttpServlet {
     }
 
 
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+   @Override
+       protected void doPut(HttpServletRequest request, HttpServletResponse response)
+               throws ServletException, IOException {
 
-        UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
-        String nombre = request.getParameter("nombre");
-        String contrasena = request.getParameter("contrasena");
-        String rol = request.getParameter("rol");
-        Usuario usuario = new Usuario();
+           UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
+           String nombre = request.getParameter("nombre");
+           String contrasena = request.getParameter("contrasena");
+           String rol = request.getParameter("rol");
+           Usuario usuario = new Usuario();
 
-        try {
-            usuario.setUsuario(nombre);
-            usuario.setPassword(contrasena);
-            usuario.setRol(rol);
-            usuarioDAO.update(usuario);
+           try {
+               usuario.setUsuario(nombre);
+               usuario.setPassword(contrasena);
+               usuario.setRol(rol);
+               usuarioDAO.update(usuario);
 
-        } catch (NumberFormatException nfe) {
-            nfe.printStackTrace();
-        }
+           } catch (NumberFormatException nfe) {
+               nfe.printStackTrace();
+           }
 
-    }
+       }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)

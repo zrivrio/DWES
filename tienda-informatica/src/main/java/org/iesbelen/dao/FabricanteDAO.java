@@ -15,7 +15,6 @@ public interface FabricanteDAO {
 	public void delete(int id);
 	//Ampliación CRUD:
 	public Optional<Integer> getCountProductos(int id);
-	public List<FabricanteDTO> getAllDTOPlusCountProductos();
 
 
 }

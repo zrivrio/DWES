@@ -200,4 +200,36 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 		
 	}
 
+	@Override
+	public List<Producto> filtro(String nombre) {
+		List<Producto> productos = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn = connectDB();
+			ps = conn.prepareStatement("SELECT * FROM productos WHERE nombre LIKE ?");
+			ps.setString(1, "%" + nombre + "%");
+
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Producto prod = new Producto();
+				prod.setIdProducto(rs.getInt("idProducto"));
+				prod.setNombre(rs.getString("nombre"));
+				prod.setPrecio(rs.getDouble("precio"));
+				prod.setCodigo_fabricante(rs.getInt("idFabricante"));
+
+				productos.add(prod);
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			closeDb(conn, ps, rs);
+		}
+
+		return productos;
+	}
+
 }
