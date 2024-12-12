@@ -93,7 +93,7 @@ public class ProductosServlet extends HttpServlet {
 				try {
 
 					request.setAttribute("producto",fabDAO.find(Integer.parseInt(pathParts[1])));
-					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp//productos/detalle-producto.jsp");
+					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/detalle-producto.jsp");
 
 				} catch (NumberFormatException nfe) {
 					nfe.printStackTrace();
@@ -107,7 +107,7 @@ public class ProductosServlet extends HttpServlet {
 				// /productos/editar/{id}
 				try {
 					request.setAttribute("producto",fabDAO.find(Integer.parseInt(pathParts[2])));
-					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp//productos/editar-producto.jsp");
+					dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/editar-producto.jsp");
 					        								
 				} catch (NumberFormatException nfe) {
 					nfe.printStackTrace();
