@@ -229,7 +229,7 @@ public class FabricanteDAOImpl extends AbstractDAOImpl implements FabricanteDAO{
         return Optional.empty();
     }
 
-	@Override
+
 	public List<FabricanteDTO> getAllDTOPlusCountProductos() {
 		return List.of();
 	}
