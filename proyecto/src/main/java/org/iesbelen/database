@@ -1,0 +1,41 @@
+CREATE DATABASE proyecto;
+use proyecto;
+
+CREATE TABLE Usuario (
+    idUsuario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(25) NOT NULL,
+    contrasena VARCHAR(255) NOT NULL,
+    direccion VARCHAR(50),
+    rol ENUM('administrador', 'usuario', 'vendedor') DEFAULT 'usuario'
+);
+
+CREATE TABLE Categoria (
+    idCategoria INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(25) NOT NULL
+);
+
+CREATE TABLE Producto (
+    idProducto INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nombre VARCHAR(25) NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,
+    descripcion VARCHAR(255),
+    idCategoria INT,
+    FOREIGN KEY (idCategoria) REFERENCES Categoria(idCategoria) ON DELETE SET NULL
+);
+
+CREATE TABLE Pedido (
+    idPedido INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idUsuario INT,
+    fechaPedido datetime NOT NULL,
+    estadoPedido ENUM('pendiente', 'procesado', 'entregado', 'cancelado') DEFAULT 'pendiente',
+    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE SET NULL
+);
+
+CREATE TABLE DetallePedido (
+    idDetalle INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idProducto INT,
+    idPedido INT,
+    cantidad INT NOT NULL,
+    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto) ON DELETE SET NULL,
+    FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido) ON DELETE CASCADE
+);
