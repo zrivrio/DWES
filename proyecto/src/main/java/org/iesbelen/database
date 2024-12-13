@@ -39,3 +39,28 @@ CREATE TABLE DetallePedido (
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto) ON DELETE SET NULL,
     FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido) ON DELETE CASCADE
 );
+
+INSERT INTO `categoria` (`nombre`)
+VALUES
+('Rock'),
+('Jazz'),
+('Rap'),
+('Indie'),
+('Blues'),
+('Reggae'),
+('Dance'),
+('Ska'),
+('Soul');
+
+INSERT INTO `usuario` (`nombre`, `contrasena`, `rol`)
+VALUES
+('zahira', '1', 'administrador'),
+('aroa', '1', 'usuario'),
+('david', '1', 'vendedor');
+
+INSERT INTO `producto` (`nombre`, `precio`, `idCategoria`)
+values
+('The Dark Side of the Moon',20.5,5),
+('Mañana sera bonito',30.5,4),
+('Donde quiero estar',25.5,5);
+

@@ -1,6 +1,6 @@
 package org.iesbelen.model;
 
-public class Detalle_Pedido {
+public class DetallePedido {
     private int idDetalle;
     private int idProducto;
     private int idPedido;

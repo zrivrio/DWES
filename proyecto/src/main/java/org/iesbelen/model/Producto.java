@@ -6,6 +6,7 @@ public class Producto {  private int idUsuario;
     private String nombre;
     private double precio;
     private String descripcion;
+    private String imagen;
     private int idCategoria;
 
     public int getIdUsuario() {
@@ -31,6 +32,9 @@ public class Producto {  private int idUsuario;
     public int getIdCategoria() {
         return idCategoria;
     }
+    public String getImagen() {
+        return imagen;
+    }
 
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
@@ -54,6 +58,9 @@ public class Producto {  private int idUsuario;
 
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
+    }
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     @Override
