@@ -1,6 +1,7 @@
 package org.iesbelen.dao;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class PedidoDAOImpl extends AbstractDAOImpl implements PedidoDAO {
 
             int idx = 1;
             ps.setInt(idx++, pedido.getIdUsuario());
-            ps.setDate(idx++,(Date) pedido.getFechaPedido());
+            ps.setDate(idx++,Date.valueOf(pedido.getFechaPedido()));
             ps.setString(idx, pedido.getEstadoPedido());
 
             int rows = ps.executeUpdate();
@@ -72,7 +73,7 @@ public class PedidoDAOImpl extends AbstractDAOImpl implements PedidoDAO {
                 int idx = 1;
                 pedido.setIdPedido(rs.getInt(idx++));
                 pedido.setIdUsuario(rs.getInt(idx++));
-                pedido.setFechaPedido(rs.getDate(idx++));
+                pedido.setFechaPedido(rs.getDate(idx++).toLocalDate());
                 pedido.setEstadoPedido(rs.getString(idx));
                 listaPedido.add(pedido);
             }
@@ -113,7 +114,7 @@ public class PedidoDAOImpl extends AbstractDAOImpl implements PedidoDAO {
                 idx = 1;
                 pedido.setIdPedido(rs.getInt(idx++));
                 pedido.setIdUsuario(rs.getInt(idx++));
-                pedido.setFechaPedido(rs.getDate(idx++));
+                pedido.setFechaPedido(rs.getDate(idx++).toLocalDate());
                 pedido.setEstadoPedido(rs.getString(idx));
 
                 return Optional.of(pedido);
@@ -146,7 +147,7 @@ public class PedidoDAOImpl extends AbstractDAOImpl implements PedidoDAO {
             ps = conn.prepareStatement("UPDATE pedido SET idUsuario = ?, fechaPedido = ?, estadoPedido = ? WHERE idPedido = ?");
             int idx = 1;
             ps.setInt(idx++, pedido.getIdUsuario());
-            ps.setDate(idx++, (Date) pedido.getFechaPedido());
+            ps.setDate(idx++, Date.valueOf(pedido.getFechaPedido()));
             ps.setString(idx++, pedido.getEstadoPedido());
             ps.setInt(idx, pedido.getIdPedido());
 

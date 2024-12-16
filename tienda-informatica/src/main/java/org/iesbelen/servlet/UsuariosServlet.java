@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.List;
 
-
+@WebServlet(name = "usuariosServlet", value = "/tienda/usuarios/*")
 public class UsuariosServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

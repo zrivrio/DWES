@@ -1,18 +1,19 @@
 package org.iesbelen.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Pedido {
     private int idPedido;
     private int idUsuario;
-    private Date fechaPedido;
+    private LocalDate fechaPedido;
     private String estadoPedido;
 
     public int getIdPedido() {return idPedido;}
 
     public int getIdUsuario() {return idUsuario;}
 
-    public Date getFechaPedido() {return fechaPedido;}
+    public LocalDate getFechaPedido() {return fechaPedido;}
 
     public void setIdPedido(int idPedido) {this.idPedido = idPedido;}
 
@@ -26,7 +27,7 @@ public class Pedido {
 
     public void setIdUsuario(int idUsuario) {this.idUsuario = idUsuario;}
 
-    public void setFechaPedido(Date fechaPedido) {this.fechaPedido = fechaPedido;}
+    public void setFechaPedido(LocalDate fechaPedido) {this.fechaPedido = fechaPedido;}
 
     @Override
     public boolean equals(Object o) {
