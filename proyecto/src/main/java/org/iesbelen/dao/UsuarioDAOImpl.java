@@ -33,7 +33,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
             ps.setString(idx++, usuario.getNombre());
             ps.setString(idx++, usuario.getPassword());
             ps.setString(idx++, usuario.getDireccion());
-            ps.setString(idx++, usuario.getRol());
+            ps.setString(idx, usuario.getRol());
 
             int rows = ps.executeUpdate();
             if (rows == 0)
@@ -79,7 +79,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
                 usuario.setNombre(rs.getString(idx++));
                 usuario.setPassword(rs.getString(idx++));
                 usuario.setDireccion(rs.getString(idx++));
-                usuario.setRol(rs.getString(idx++));
+                usuario.setRol(rs.getString(idx));
                 listUsuario.add(usuario);
             }
 
@@ -121,7 +121,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
                 usuario.setNombre(rs.getString(idx++));
                 usuario.setPassword(rs.getString(idx++));
                 usuario.setDireccion(rs.getString(idx++));
-                usuario.setRol(rs.getString(idx++));
+                usuario.setRol(rs.getString(idx));
 
                 return Optional.of(usuario);
             }
@@ -229,7 +229,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
                 usuario.setPassword(rs.getString(idx++));
                 usuario.setDireccion(rs.getString(idx++));
                 usuario.setRol(rs.getString(idx++));
-                usuario.setRol(rs.getString(idx++));
+                usuario.setRol(rs.getString(idx));
 
                 return Optional.of(usuario);
             }

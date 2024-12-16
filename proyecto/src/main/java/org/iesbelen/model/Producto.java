@@ -9,10 +9,6 @@ public class Producto {  private int idUsuario;
     private String imagen;
     private int idCategoria;
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
     public int getIdProducto() {
         return idProducto;
     }
@@ -34,10 +30,6 @@ public class Producto {  private int idUsuario;
     }
     public String getImagen() {
         return imagen;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
     public void setIdProducto(int idProducto) {

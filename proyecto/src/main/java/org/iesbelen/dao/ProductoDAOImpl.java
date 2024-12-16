@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.iesbelen.model.Producto;
-import org.iesbelen.model.Usuario;
 
 public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO {
 
@@ -34,7 +33,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO {
             ps.setString(idx++, producto.getNombre());
             ps.setDouble(idx++, producto.getPrecio());
             ps.setString(idx++, producto.getDescripcion());
-            ps.setInt(idx++, producto.getIdCategoria());
+            ps.setInt(idx, producto.getIdCategoria());
 
             int rows = ps.executeUpdate();
             if (rows == 0)
@@ -80,7 +79,7 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO {
                 producto.setNombre(rs.getString(idx++));
                 producto.setPrecio(rs.getDouble(idx++));
                 producto.setDescripcion(rs.getString(idx++));
-                producto.setIdCategoria(rs.getInt(idx++));
+                producto.setIdCategoria(rs.getInt(idx));
                 listProducto.add(producto);
             }
 
@@ -118,11 +117,10 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO {
             if (rs.next()) {
                 Producto producto = new Producto();
                 idx = 1;
-                producto.setIdUsuario(rs.getInt(idx++));
                 producto.setNombre(rs.getString(idx++));
                 producto.setPrecio(rs.getDouble(idx++));
                 producto.setDescripcion(rs.getString(idx++));
-                producto.setIdCategoria(rs.getInt(idx++));
+                producto.setIdCategoria(rs.getInt(idx));
 
                 return Optional.of(producto);
             }
