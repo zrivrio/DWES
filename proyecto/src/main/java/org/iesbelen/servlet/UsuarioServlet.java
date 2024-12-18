@@ -16,8 +16,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.List;
 
-@WebServlet(name = "usuariosServlet", value = "/tienda/usuarios/*")
-public class UsuariosServlet extends HttpServlet {
+@WebServlet(name = "usuarioServlet", value = "/proyecto/usuarios/*")
+public class UsuarioServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -46,7 +46,7 @@ public class UsuariosServlet extends HttpServlet {
             //	/fabricantes
 
             request.setAttribute("listaUsuario", usuarioDAO.getAll());
-            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuarios.jsp");
+            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuario.jsp");
 
         } else {
             // GET
@@ -77,11 +77,11 @@ public class UsuariosServlet extends HttpServlet {
                 // /usuarios/{id}
                 try {
                     request.setAttribute("usuario",usuarioDAO.find(Integer.parseInt(pathParts[1])));
-                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/detalle-usuarios.jsp");
+                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/detalle-usuario.jsp");
 
                 } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
-                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuarios.jsp");
+                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuario.jsp");
                 }
             } else if (pathParts.length == 3 && "editar".equals(pathParts[1]) ) {
 
@@ -94,11 +94,11 @@ public class UsuariosServlet extends HttpServlet {
 
                 } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
-                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuarios.jsp");
+                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuario.jsp");
                 }
             } else {
                 System.out.println("Opción POST no soportada.");
-                dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuarios.jsp");
+                dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuario.jsp");
 
             }
         }
@@ -118,20 +118,22 @@ public class UsuariosServlet extends HttpServlet {
         String __method__ = request.getParameter("__method__");
 
         if (__method__ == null) {
+
             // Crear uno nuevo
             UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
-
-            String usuario = request.getParameter("usuario");
+            String nombre = request.getParameter("nombre");
             String contrasena = request.getParameter("contrasena");
+            String direccion = request.getParameter("direccion");
+            String rol = request.getParameter("rol");
             Usuario nuevoUsuario = new Usuario();
-            nuevoUsuario.setUsuario(usuario);
+            nuevoUsuario.setNombre(nombre);
+            nuevoUsuario.setDireccion(direccion);
             try {
                 String hash = util.hashPassword(contrasena);
                 nuevoUsuario.setPassword(hash);
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
             }
-            String rol = request.getParameter("rol");
             nuevoUsuario.setRol(rol);
             usuarioDAO.create(nuevoUsuario);
 
@@ -162,27 +164,31 @@ public class UsuariosServlet extends HttpServlet {
     }
 
 
-   @Override
-       protected void doPut(HttpServletRequest request, HttpServletResponse response)
-               throws ServletException, IOException {
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-           UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
-           String nombre = request.getParameter("nombre");
-           String contrasena = request.getParameter("contrasena");
-           String rol = request.getParameter("rol");
-           Usuario usuario = new Usuario();
+        UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
+        int id = Integer.parseInt(request.getParameter("id"));
+        String nombre = request.getParameter("nombre");
+        String contrasena = request.getParameter("contrasena");
+        String direccion = request.getParameter("direccion");
+        String rol = request.getParameter("rol");
+        Usuario usuario = new Usuario();
 
-           try {
-               usuario.setUsuario(nombre);
-               usuario.setPassword(contrasena);
-               usuario.setRol(rol);
-               usuarioDAO.update(usuario);
+        try {
+            usuario.setIdUsuario(id);
+            usuario.setNombre(nombre);
+            usuario.setPassword(contrasena);
+            usuario.setDireccion(direccion);
+            usuario.setRol(rol);
+            usuarioDAO.update(usuario);
 
-           } catch (NumberFormatException nfe) {
-               nfe.printStackTrace();
-           }
+        } catch (NumberFormatException nfe) {
+            nfe.printStackTrace();
+        }
 
-       }
+    }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
