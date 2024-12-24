@@ -38,7 +38,6 @@ public class DetallePedidoServlet extends HttpServlet {
 
         String pathInfo = request.getPathInfo(); //
         DetallePedidoDAO detallePedidoDAO = new DetallePedidoDAOImpl();
-        List<DetallePedido> listaDetallesPedidos = detallePedidoDAO.getAll();
         if (pathInfo == null || "/".equals(pathInfo)) {
 
 

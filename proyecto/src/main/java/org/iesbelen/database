@@ -1,6 +1,8 @@
+-- Crear la base de datos
 CREATE DATABASE proyecto;
-use proyecto;
+USE proyecto;
 
+-- Tabla Usuario
 CREATE TABLE Usuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nombre VARCHAR(25) NOT NULL,
@@ -9,28 +11,44 @@ CREATE TABLE Usuario (
     rol ENUM('administrador', 'usuario', 'vendedor') DEFAULT 'usuario'
 );
 
+-- Tabla Categoria
 CREATE TABLE Categoria (
     idCategoria INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nombre VARCHAR(25) NOT NULL
 );
 
+-- Tabla Artista
+CREATE TABLE artista (
+    idArtista INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    nacionalidad VARCHAR(100) DEFAULT NULL,
+    descripcion TEXT DEFAULT NULL,
+    anioInicio INT DEFAULT NULL
+);
+
+
+-- Tabla Producto
 CREATE TABLE Producto (
     idProducto INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nombre VARCHAR(25) NOT NULL,
     precio DECIMAL(10,2) NOT NULL,
     descripcion VARCHAR(255),
     idCategoria INT,
-    FOREIGN KEY (idCategoria) REFERENCES Categoria(idCategoria) ON DELETE SET NULL
+    idArtista INT,
+    FOREIGN KEY (idCategoria) REFERENCES Categoria(idCategoria) ON DELETE SET NULL,
+    FOREIGN KEY (idArtista) REFERENCES Artista(idArtista) ON DELETE SET NULL
 );
 
+-- Tabla Pedido
 CREATE TABLE Pedido (
     idPedido INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     idUsuario INT,
-    fechaPedido datetime NOT NULL,
+    fechaPedido DATETIME NOT NULL,
     estadoPedido ENUM('pendiente', 'procesado', 'entregado', 'cancelado') DEFAULT 'pendiente',
     FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario) ON DELETE SET NULL
 );
 
+-- Tabla DetallePedido
 CREATE TABLE DetallePedido (
     idDetalle INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     idProducto INT,
@@ -40,27 +58,59 @@ CREATE TABLE DetallePedido (
     FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido) ON DELETE CASCADE
 );
 
-INSERT INTO `categoria` (`nombre`)
+-- Insertar datos en Categoria
+INSERT INTO Categoria (idCategoria, nombre)
 VALUES
-('Rock'),
-('Jazz'),
-('Rap'),
-('Indie'),
-('Blues'),
-('Reggae'),
-('Dance'),
-('Ska'),
-('Soul');
+(1, 'Rock'),
+(2, 'Jazz'),
+(3, 'Rap'),
+(4, 'Indie'),
+(5, 'Blues'),
+(6, 'Reggae'),
+(7, 'Dance'),
+(8, 'Pop'),
+(9, 'Funk'),
+(10, 'Dance');
 
-INSERT INTO `usuario` (`nombre`, `contrasena`, `rol`)
+-- Insertar datos en Artista
+INSERT INTO artista (idArtista, nombre, nacionalidad, descripcion, anioInicio)
+VALUES
+(1, 'The Weeknd', 'Canadá', 'Cantante y compositor de R&B conocido por su estilo oscuro.', 2010),
+(2, 'Bruno Mars', 'EE.UU.', 'Artista pop y funk con múltiples éxitos globales.', 2004),
+(3, 'Arctic Monkeys', 'Reino Unido', 'Banda de rock indie con sonido único.', 2002),
+(4, 'Morat', 'Colombia', 'Banda pop latinoamericana conocida por sus letras emotivas.', 2015),
+(5, 'Bad Bunny', 'Puerto Rico', 'Cantante de reguetón y trap con reconocimiento mundial.', 2016),
+(6, 'Billie Eilish', 'EE.UU.', 'Cantante y compositora de música alternativa.', 2015),
+(7, 'Humbe', 'México', 'Cantante emergente en la escena pop en español.', 2020),
+(8, '5SOS', 'Australia', 'Banda pop-rock conocida por éxitos juveniles.', 2011),
+(9, 'Alec Benjamin', 'EE.UU.', 'Cantante y compositor conocido por sus letras narrativas.', 2014),
+(10, 'Harry Styles', 'Reino Unido', 'Cantante y actor, exmiembro de One Direction.', 2010),
+(11, 'Daft Punk', 'Francia', 'Pioneros de la música electrónica y house.', 1993),
+(12, 'Gorillaz', 'Reino Unido', 'Banda virtual de rock alternativo y trip-hop.', 1998),
+(13, 'Shawn Mendes', 'Canadá', 'Cantante pop conocido por su voz y carisma.', 2014);
+
+-- Insertar datos en Usuario
+INSERT INTO Usuario (nombre, contrasena, rol)
 VALUES
 ('zahira', '1', 'administrador'),
 ('aroa', '1', 'usuario'),
 ('david', '1', 'vendedor');
 
-INSERT INTO `producto` (`nombre`, `precio`, `idCategoria`)
-values
-('The Dark Side of the Moon',20.5,5),
-('Mañana sera bonito',30.5,4),
-('Donde quiero estar',25.5,5);
-
+-- Insertar datos en Producto
+INSERT INTO Producto (nombre, precio, idCategoria, idArtista)
+VALUES
+('StarBoy', 18.97, 8, 1),
+('Doo-Wops & Hooligans', 12.54, 1, 2),
+('Favorite Worst Nightmare', 12.54, 4, 3),
+('Balas Perdidas', 14.99, 8, 4),
+('Un Verano Sin Ti', 17.99, 4, 5),
+('Hit Me Hard And Soft', 11.99, 8, 6),
+('Aurora', 9.99, 8, 7),
+('Youngblood', 9.09, 8, 8),
+('Narrative for You', 38.39, 4, 9),
+('Harry`s House', 15.99, 9, 10),
+('Random Access Memories', 13.06, 10, 11),
+('Deamon Day', 14.62, 3, 12),
+('Plastic Beach', 14.00, 3, 12),
+('Shawn Mendes', 20.99, 8, 13),
+('Illuminate', 19.09, 8, 13);

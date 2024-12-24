@@ -1,0 +1,69 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="org.iesbelen.model.Usuario" %>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="${pageContext.request.contextPath}/index.jsp">
+            <img src="${pageContext.request.contextPath}/assets/logo/logo.png" alt="Logo" style="height: 50px;" class="me-2">
+            <span>BEATDROP</span>
+        </a>
+
+        <!-- Botón colapsable -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menú -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- Enlaces comunes -->
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/proyecto/productos/">Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/proyecto/artistas/">Artistas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/proyecto/categorias/">Categorías</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/proyecto/pedidos/">Carrito</a>
+                </li>
+
+                <!-- Login/Logout dinámico -->
+                <%
+                    Usuario usuarioLogado = (Usuario) session.getAttribute("usuario-logado");
+                    if (usuarioLogado != null) {
+                %>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <%= usuarioLogado.getNombre() %>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/proyecto/usuarios/perfil/">Perfil</a>
+                        </li>
+                        <li>
+                            <form action="${pageContext.request.contextPath}/proyecto/usuarios/logout/" method="post" class="m-0">
+                                <input type="hidden" name="__method__" value="logout"/>
+                                <button type="submit" class="dropdown-item">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                <%
+                } else {
+                %>
+                <li class="nav-item">
+                    <form action="${pageContext.request.contextPath}/proyecto/usuarios/login/" method="get">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </li>
+                <%
+                    }
+                %>
+            </ul>
+        </div>
+    </div>
+</nav>

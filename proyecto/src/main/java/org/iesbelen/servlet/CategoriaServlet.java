@@ -12,16 +12,16 @@ import org.iesbelen.model.Categoria;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "categoriaServlet", value = "/proyecto/categoria/*")
+@WebServlet(name = "categoriaServlet", value = "/proyecto/categorias/*")
 public class CategoriaServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * HTTP Method: GET
      * Paths:
-     * 		/categoria/
-     * 		/categoria/editar{id}
-     * 		/categoria/crear
+     * 		/categorias/
+     * 		/categorias/editar{id}
+     * 		/categorias/crear
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,7 +31,6 @@ public class CategoriaServlet extends HttpServlet {
 
         String pathInfo = request.getPathInfo(); //
         CategoriaDAO categoriaDAO = new CategoriaDAOImpl();
-        List<Categoria> listacategoria = categoriaDAO.getAll();
         if (pathInfo == null || "/".equals(pathInfo)) {
 
 
@@ -39,7 +38,7 @@ public class CategoriaServlet extends HttpServlet {
             //	/fabricantes/
             //	/fabricantes
 
-            request.setAttribute("listacategoria", categoriaDAO.getAll());
+            request.setAttribute("listaCategoria", categoriaDAO.getAll());
             dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/categorias/categoria.jsp");
 
         } else {

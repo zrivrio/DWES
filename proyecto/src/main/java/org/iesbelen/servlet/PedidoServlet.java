@@ -43,7 +43,6 @@ public class PedidoServlet extends HttpServlet {
 
         String pathInfo = request.getPathInfo(); //
         PedidoDAO pedidoDAO = new PedidoDAOImpl();
-        List<Pedido> listapedido = pedidoDAO.getAll();
         if (pathInfo == null || "/".equals(pathInfo)) {
 
 
@@ -145,8 +144,8 @@ public class PedidoServlet extends HttpServlet {
             System.out.println("Opción POST no soportada.");
         }
 
-        //response.sendRedirect("../../../tienda/usuarios");
-        response.sendRedirect(request.getContextPath() + "/tienda/usuarios/");
+        //response.sendRedirect("../../../proyecto/usuarios");
+        response.sendRedirect(request.getContextPath() + "/proyecto/usuarios/");
     }
 
 

@@ -37,13 +37,12 @@ public class UsuarioServlet extends HttpServlet {
 
         String pathInfo = request.getPathInfo(); //
         UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
-        List<Usuario> listaUsuarios = usuarioDAO.getAll();
         if (pathInfo == null || "/".equals(pathInfo)) {
 
 
             //GET
-            //	/fabricantes/
-            //	/fabricantes
+            //	/usuarios/
+            //	/usuarios
 
             request.setAttribute("listaUsuario", usuarioDAO.getAll());
             dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuario.jsp");
@@ -87,7 +86,7 @@ public class UsuarioServlet extends HttpServlet {
 
 
                 // GET
-                // /fabricantes/editar/{id}
+                // /usuarios/editar/{id}
                 try {
                     request.setAttribute("usuario",usuarioDAO.find(Integer.parseInt(pathParts[2])));
                     dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/editar-usuario.jsp");
@@ -118,29 +117,45 @@ public class UsuarioServlet extends HttpServlet {
         String __method__ = request.getParameter("__method__");
 
         if (__method__ == null) {
-
             // Crear uno nuevo
             UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
             String nombre = request.getParameter("nombre");
             String contrasena = request.getParameter("contrasena");
             String direccion = request.getParameter("direccion");
             String rol = request.getParameter("rol");
+
+            // Verificar si la contraseña está presente
+            if (contrasena == null || contrasena.trim().isEmpty()) {
+                request.setAttribute("errorMessage", "La contraseña no puede estar vacía.");
+                dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/crear-usuario.jsp");
+                dispatcher.forward(request, response);
+                return; // Terminar si la contraseña está vacía
+            }
+
             Usuario nuevoUsuario = new Usuario();
             nuevoUsuario.setNombre(nombre);
             nuevoUsuario.setDireccion(direccion);
+
             try {
                 String hash = util.hashPassword(contrasena);
                 nuevoUsuario.setPassword(hash);
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
+            } catch (IllegalArgumentException e) {
+                // Si la contraseña es nula o vacía, manejar el error adecuadamente
+                request.setAttribute("errorMessage", e.getMessage());
+                dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/crear-usuario.jsp");
+                dispatcher.forward(request, response);
+                return; // Terminar si hay un problema con la contraseña
             }
+
             nuevoUsuario.setRol(rol);
             usuarioDAO.create(nuevoUsuario);
 
         } else if (__method__ != null && "login".equalsIgnoreCase(__method__)) {
             doLogin(request, response);
 
-        }else if (__method__ != null && "logout".equalsIgnoreCase(__method__)) {
+        } else if (__method__ != null && "logout".equalsIgnoreCase(__method__)) {
             HttpSession session = request.getSession(true);
             session.setAttribute("usuario-logado", null);
             dispatcher = request.getRequestDispatcher("/");
@@ -159,8 +174,8 @@ public class UsuarioServlet extends HttpServlet {
             System.out.println("Opción POST no soportada.");
         }
 
-        //response.sendRedirect("../../../tienda/usuarios");
-        response.sendRedirect(request.getContextPath() + "/tienda/usuarios/");
+        //response.sendRedirect("../../../proyecto/usuarios");
+        response.sendRedirect(request.getContextPath() + "/proyecto/usuarios/");
     }
 
 
@@ -243,5 +258,6 @@ public class UsuarioServlet extends HttpServlet {
             dispatcher.forward(request, response);
         }
     }
+
 
 }

@@ -27,13 +27,14 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO {
         try {
             conn = connectDB();
 
-            ps = conn.prepareStatement("INSERT INTO producto (nombre, precio, descripcion, idCategoria) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement("INSERT INTO producto (nombre, precio, descripcion, idCategoria, idArtista) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
             int idx = 1;
             ps.setString(idx++, producto.getNombre());
             ps.setDouble(idx++, producto.getPrecio());
             ps.setString(idx++, producto.getDescripcion());
-            ps.setInt(idx, producto.getIdCategoria());
+            ps.setInt(idx++, producto.getIdCategoria());
+            ps.setInt(idx, producto.getIdArtista());
 
             int rows = ps.executeUpdate();
             if (rows == 0)
@@ -79,7 +80,8 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO {
                 producto.setNombre(rs.getString(idx++));
                 producto.setPrecio(rs.getDouble(idx++));
                 producto.setDescripcion(rs.getString(idx++));
-                producto.setIdCategoria(rs.getInt(idx));
+                producto.setIdCategoria(rs.getInt(idx++));
+                producto.setIdArtista(rs.getInt(idx));
                 listProducto.add(producto);
             }
 
@@ -108,33 +110,35 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO {
             conn = connectDB();
 
             ps = conn.prepareStatement("SELECT * FROM producto WHERE idProducto = ?");
-
-            int idx =  1;
-            ps.setInt(idx, id);
+            ps.setInt(1, id);
 
             rs = ps.executeQuery();
 
             if (rs.next()) {
                 Producto producto = new Producto();
-                idx = 1;
-                producto.setNombre(rs.getString(idx++));
-                producto.setPrecio(rs.getDouble(idx++));
-                producto.setDescripcion(rs.getString(idx++));
-                producto.setIdCategoria(rs.getInt(idx));
+                int idx = 1;
+
+                producto.setIdProducto(rs.getInt(idx++));  // String field
+                producto.setNombre(rs.getString(idx++));  // String field
+                producto.setPrecio(rs.getDouble(idx++));  // Double field
+                producto.setDescripcion(rs.getString(idx++));  // String field
+                producto.setIdCategoria(rs.getInt(idx++));  // Int field
+                producto.setIdArtista(rs.getInt(idx));  // Int field
 
                 return Optional.of(producto);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.err.println("SQL Error: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            System.err.println("Class not found: " + e.getMessage());
         } finally {
             closeDb(conn, ps, rs);
         }
 
         return Optional.empty();
-
     }
     /**
      * Actualiza producto con campos del bean producto según ID del mismo.
@@ -149,12 +153,13 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO {
         try {
             conn = connectDB();
 
-            ps = conn.prepareStatement("UPDATE producto SET nombre = ?, precio = ?, descripcion = ?, idCategoria = ? WHERE idProducto = ?");
+            ps = conn.prepareStatement("UPDATE producto SET nombre = ?, precio = ?, descripcion = ?, idCategoria = ?, idArtista = ? WHERE idProducto = ?");
             int idx = 1;
             ps.setString(idx++, producto.getNombre());
             ps.setDouble(idx++, producto.getPrecio());
             ps.setString(idx++, producto.getDescripcion());
             ps.setInt(idx++, producto.getIdCategoria());
+            ps.setInt(idx++, producto.getIdArtista());
             ps.setInt(idx, producto.getIdProducto());
 
             int rows = ps.executeUpdate();

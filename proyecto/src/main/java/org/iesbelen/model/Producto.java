@@ -1,13 +1,12 @@
 package org.iesbelen.model;
 
-public class Producto {  private int idUsuario;
-
+public class Producto {
     private int idProducto;
     private String nombre;
     private double precio;
     private String descripcion;
-    private String imagen;
     private int idCategoria;
+    private int idArtista;
 
     public int getIdProducto() {
         return idProducto;
@@ -28,8 +27,9 @@ public class Producto {  private int idUsuario;
     public int getIdCategoria() {
         return idCategoria;
     }
-    public String getImagen() {
-        return imagen;
+
+    public int getIdArtista() {
+        return idArtista;
     }
 
     public void setIdProducto(int idProducto) {
@@ -51,8 +51,9 @@ public class Producto {  private int idUsuario;
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
     }
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+
+    public void setIdArtista(int idArtista) {
+        this.idArtista = idArtista;
     }
 
     @Override
