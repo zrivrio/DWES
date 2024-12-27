@@ -126,6 +126,7 @@ public class CategoriaServlet extends HttpServlet {
         Categoria categoria = new Categoria();
 
         try {
+            categoria.setIdCategoria(id);
             categoria.setNombre(nombre);
             categoriaDAO.update(categoria);
 

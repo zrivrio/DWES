@@ -9,6 +9,5 @@ public interface DetallePedidoDAO {
     public void create(DetallePedido detallePedido);
     public List<DetallePedido> getAll();
     public Optional<DetallePedido> find(int id);
-    public void update(DetallePedido detallePedido);
     public void delete(int id);
 }

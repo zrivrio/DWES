@@ -28,7 +28,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/proyecto/categorias/">Categorías</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/proyecto/pedidos/">Carrito</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/proyecto/carrito/">Carrito</a>
                 </li>
 
                 <!-- Login/Logout dinámico -->
@@ -42,7 +42,10 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li>
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/proyecto/usuarios/perfil/">Perfil</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/proyecto/pedidos/">Pedidos</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/proyecto/usuarios/">Usuarios</a>
                         </li>
                         <li>
                             <form action="${pageContext.request.contextPath}/proyecto/usuarios/logout/" method="post" class="m-0">

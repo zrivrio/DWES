@@ -123,40 +123,7 @@ public class DetallePedidoDAOImpl extends AbstractDAOImpl implements DetallePedi
         return Optional.empty();
 
     }
-    /**
-     * Actualiza detalle con campos del bean detalle según ID del mismo.
-     */
-    @Override
-    public void update(DetallePedido detallePedido) {
 
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            conn = connectDB();
-
-            ps = conn.prepareStatement("UPDATE detallePedido SET idProducto = ?, idPedido = ?, cantidad = ? WHERE idDetalle = ?");
-            int idx = 1;
-            ps.setInt(idx++, detallePedido.getIdProducto());
-            ps.setInt(idx++, detallePedido.getIdPedido());
-            ps.setInt(idx++, detallePedido.getCantidad());
-            ps.setInt(idx, detallePedido.getIdDetalle());
-
-            int rows = ps.executeUpdate();
-
-            if (rows == 0)
-                System.out.println("Update de detalle con 0 registros actualizados.");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            closeDb(conn, ps, rs);
-        }
-
-    }
 
     /**
      * Borra detalle con ID proporcionado.

@@ -67,7 +67,7 @@
         </div>
 
         <%
-            if (usuarioLogado != null) {
+            if (usuarioLogado != null && "administrador".equals(usuarioLogado.getRol())) {
         %>
         <!-- Sección de Usuarios -->
         <div class="col-md-4 text-center mb-4">
@@ -78,6 +78,18 @@
                         <h3 class="card-title">Usuarios</h3>
                         <p class="card-text">Gestiona y edita los usuarios registrados.</p>
                         <button class="btn btn-success">Ir a Usuarios</button>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <a href="<%=application.getContextPath()%>/proyecto/pedidos/" class="text-decoration-none">
+                <div class="card shadow-lg card-equal">
+                    <img src="<%=application.getContextPath()%>/assets/images/pedidos.png" alt="Gestionar Pedidos" class="card-img-top">
+                    <div class="card-body">
+                        <h3 class="card-title">Pedidos</h3>
+                        <p class="card-text">Gestiona y actualiza los pedidos registrados.</p>
+                        <button class="btn btn-dark">Ir a Pedidos</button>
                     </div>
                 </div>
             </a>

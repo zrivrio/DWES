@@ -48,7 +48,7 @@
             <label>Código</label>
           </div>
           <div style="float: none;width: auto;overflow: hidden;">
-            <input type="text" value="<%= usuario.get().getIdUsuario() %>" readonly="readonly" class="form-control"/>
+            <input type="text" name="id" value="<%= usuario.get().getIdUsuario() %>" readonly="readonly" class="form-control"/>
           </div>
         </div>
 

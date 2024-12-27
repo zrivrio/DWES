@@ -147,7 +147,6 @@ public class ProductoServlet extends HttpServlet {
             nuevoProducto.setPrecio(precio);
             nuevoProducto.setDescripcion(descripcion);
             nuevoProducto.setIdCategoria(idCategoria);
-
             nuevoProducto.setIdArtista(idArtista);
             productoDAO.create(nuevoProducto);
 
@@ -174,6 +173,7 @@ public class ProductoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         ProductoDAO productoDAO = new ProductoDAOImpl();
+        int id = Integer.parseInt(request.getParameter("codigo"));
         String nombre = request.getParameter("nombre");
         Double precio = Double.parseDouble(request.getParameter("precio"));
         String descripcion = request.getParameter("descripcion");
@@ -182,6 +182,7 @@ public class ProductoServlet extends HttpServlet {
         Producto nuevoProducto = new Producto();
 
         try {
+            nuevoProducto.setIdProducto(id);
             nuevoProducto.setNombre(nombre);
             nuevoProducto.setPrecio(precio);
             nuevoProducto.setDescripcion(descripcion);
@@ -200,7 +201,7 @@ public class ProductoServlet extends HttpServlet {
     {
         RequestDispatcher dispatcher;
         ProductoDAO productoDAO = new ProductoDAOImpl();
-        String codigo = request.getParameter("id");
+        String codigo = request.getParameter("codigo");
 
         try {
             int id = Integer.parseInt(codigo);

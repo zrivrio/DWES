@@ -7,33 +7,26 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.iesbelen.dao.DetallePedidoDAO;
+import org.iesbelen.dao.DetallePedidoDAOImpl;
 import org.iesbelen.dao.PedidoDAO;
 import org.iesbelen.dao.PedidoDAOImpl;
-import org.iesbelen.dao.UsuarioDAO;
-import org.iesbelen.dao.UsuarioDAOImpl;
+import org.iesbelen.model.DetallePedido;
 import org.iesbelen.model.Pedido;
 import org.iesbelen.model.Usuario;
-import org.iesbelen.utilities.util;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.Optional;
-import java.util.List;
 
-@WebServlet(name = "pedidosServlet", value = "/proyecto/pedidos/*")
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@WebServlet(name = "pedidoServlet", value = "/proyecto/pedidos/*")
 public class PedidoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * HTTP Method: GET
-     * Paths:
-     * 		/pedido/
-     * 		/pedido/{id}
-     * 		/pedido/editar{id}
-     * 		/pedido/crear
-     */
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -43,6 +36,7 @@ public class PedidoServlet extends HttpServlet {
 
         String pathInfo = request.getPathInfo(); //
         PedidoDAO pedidoDAO = new PedidoDAOImpl();
+        DetallePedidoDAO detallePedidoDAO = new DetallePedidoDAOImpl();
         if (pathInfo == null || "/".equals(pathInfo)) {
 
 
@@ -50,7 +44,7 @@ public class PedidoServlet extends HttpServlet {
             //	/pedidos/
             //	/pedidos
 
-            request.setAttribute("listapedido", pedidoDAO.getAll());
+            request.setAttribute("listaPedido", pedidoDAO.getAll());
             dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/pedidos/pedido.jsp");
 
         } else {
@@ -62,6 +56,7 @@ public class PedidoServlet extends HttpServlet {
             // 		/pedidos/crear
             // 		/pedidos/crear/
 
+
             pathInfo = pathInfo.replaceAll("/$", "");
             String[] pathParts = pathInfo.split("/");
 
@@ -72,12 +67,25 @@ public class PedidoServlet extends HttpServlet {
                 // /pedidos/crear
                 dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/pedidos/crear-pedido.jsp");
 
-            }else if (pathParts.length == 2) {
+            }  else if (pathParts.length == 2) {
 
                 // GET
                 // /pedidos/{id}
                 try {
-                    request.setAttribute("pedido",pedidoDAO.find(Integer.parseInt(pathParts[1])));
+                    Optional<Pedido> pedio = pedidoDAO.find(Integer.parseInt(pathParts[1]));
+
+                    if (pedio.isPresent()) { // Verifica si el Optional contiene un valor
+                        Pedido pedidoEncontrado = pedio.get();
+
+                        List<DetallePedido> detallePedidos = detallePedidoDAO.getAll().stream()
+                                .filter(detallePedido -> detallePedido.getIdPedido() == pedidoEncontrado.getIdPedido())
+                                .toList(); // Recoge el resultado filtrado en una lista
+                        request.setAttribute("listaDestalle", detallePedidos);
+                    } else {
+                        response.sendError(HttpServletResponse.SC_NOT_FOUND, "Pedido no encontrado");
+                    }
+
+                    request.setAttribute("pedido",pedio);
                     dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/pedidos/detalle-pedido.jsp");
 
                 } catch (NumberFormatException nfe) {
@@ -88,7 +96,7 @@ public class PedidoServlet extends HttpServlet {
 
 
                 // GET
-                // /fabricantes/editar/{id}
+                // /pedidos/editar/{id}
                 try {
                     request.setAttribute("pedido",pedidoDAO.find(Integer.parseInt(pathParts[2])));
                     dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/pedidos/editar-pedido.jsp");
@@ -112,42 +120,68 @@ public class PedidoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String pathInfo = request.getPathInfo();
-        pathInfo = pathInfo.replaceAll("/$", "");
+        pathInfo = pathInfo != null ? pathInfo.replaceAll("/$", "") : "";
         String[] pathParts = pathInfo.split("/");
 
-        RequestDispatcher dispatcher;
         String __method__ = request.getParameter("__method__");
 
         if (__method__ == null) {
-            // Crear uno nuevo
-            PedidoDAO pedidoDAO = new PedidoDAOImpl();
+            HttpSession session = request.getSession(false); // Recupera la sesión existente, si la hay
+            if (session == null || session.getAttribute("usuario-logado") == null) {
+                // Si no hay sesión activa o el usuario no está logado
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/login.jsp");
+                dispatcher.forward(request, response);
+                return; // Termina el flujo para evitar el redirect posterior
+            }
 
-            int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
-            LocalDate fecha = LocalDate.parse(request.getParameter("fecha"));
-            String estadoPedido = request.getParameter("estadoPedido");
-            Pedido nuevoPedido = new Pedido();
-            nuevoPedido.setIdUsuario(idUsuario);
-            nuevoPedido.setFechaPedido(fecha);
-            nuevoPedido.setEstadoPedido(estadoPedido);
-            pedidoDAO.create(nuevoPedido);
+            Usuario usuarioLogado = (Usuario) session.getAttribute("usuario-logado");
+            int idUsuario = usuarioLogado.getIdUsuario(); // Obtén el ID del usuario logado
 
-        }else if (__method__ != null && "put".equalsIgnoreCase(__method__)) {
+            try {
+                String estadoPedido = "pendiente";
+                LocalDate fecha = LocalDate.now();
+
+                Pedido nuevoPedido = new Pedido();
+                nuevoPedido.setIdUsuario(idUsuario);
+                nuevoPedido.setEstadoPedido(estadoPedido);
+                nuevoPedido.setFechaPedido(fecha);
+
+                PedidoDAO pedidoDAO = new PedidoDAOImpl();
+                pedidoDAO.create(nuevoPedido);
+                if (nuevoPedido.getIdPedido() > 0) {
+                    Map<Integer, Integer> carrito = (Map<Integer, Integer>) session.getAttribute("carrito");
+                    if (carrito == null || carrito.isEmpty()) {
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El carrito está vacío.");
+                        return;
+                    }
+                    carrito.forEach((producto,cantidad)-> {
+                        DetallePedido nuevoDetallePedido = new DetallePedido();
+                        nuevoDetallePedido.setIdPedido(nuevoPedido.getIdPedido());
+                        nuevoDetallePedido.setIdProducto(producto);
+                        nuevoDetallePedido.setCantidad(cantidad);
+                        DetallePedidoDAO detallePedidoDAO = new DetallePedidoDAOImpl();
+                        detallePedidoDAO.create(nuevoDetallePedido);
+                    });
+                }
+                // Redirige tras crear el pedido exitosamente
+                response.sendRedirect(request.getContextPath() + "/proyecto/pedidos/crear/");
+                return;
+            } catch (IllegalArgumentException | DateTimeParseException e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+                return; // Termina el flujo tras enviar el error
+            }
+        } else if ("put".equalsIgnoreCase(__method__)) {
             // Actualizar uno existente
-            //Dado que los forms de html sólo soportan method GET y POST utilizo parámetro oculto para indicar la operación de actulización PUT.
             doPut(request, response);
-
-        } else if (__method__ != null && "delete".equalsIgnoreCase(__method__)) {
+        } else if ("delete".equalsIgnoreCase(__method__)) {
             // Borrar uno existente
-            //Dado que los forms de html sólo soportan method GET y POST utilizo parámetro oculto para indicar la operación de actulización DELETE.
             doDelete(request, response);
         } else {
             System.out.println("Opción POST no soportada.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Opción POST no soportada.");
         }
-
-        //response.sendRedirect("../../../proyecto/usuarios");
-        response.sendRedirect(request.getContextPath() + "/proyecto/usuarios/");
     }
-
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
@@ -156,16 +190,18 @@ public class PedidoServlet extends HttpServlet {
         PedidoDAO pedidoDAO = new PedidoDAOImpl();
         int id = Integer.parseInt(request.getParameter("id"));
         int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+        String estadoPedido = request.getParameter("estado");
         LocalDate fecha = LocalDate.parse(request.getParameter("fecha"));
-        String estadoPedido = request.getParameter("estadoPedido");
+
         Pedido pedido = new Pedido();
 
         try {
+            pedido.setIdPedido(id);
             pedido.setIdUsuario(idUsuario);
-            pedido.setFechaPedido(fecha);
             pedido.setEstadoPedido(estadoPedido);
+            pedido.setFechaPedido(fecha);
             pedidoDAO.update(pedido);
-
+            response.sendRedirect(request.getContextPath() + "/proyecto/pedidos/");
         } catch (NumberFormatException nfe) {
             nfe.printStackTrace();
         }
@@ -176,16 +212,18 @@ public class PedidoServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
     {
         RequestDispatcher dispatcher;
-        UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
+        PedidoDAO pedidoDAO = new PedidoDAOImpl();
         String codigo = request.getParameter("codigo");
 
         try {
             int id = Integer.parseInt(codigo);
 
-            usuarioDAO.delete(id);
-
+            pedidoDAO.delete(id);
+            response.sendRedirect(request.getContextPath() + "/proyecto/pedidos/");
         } catch (NumberFormatException nfe) {
             nfe.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

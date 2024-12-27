@@ -142,6 +142,7 @@ public class ArtistaServlet extends HttpServlet {
             throws ServletException, IOException {
 
         ArtistaDAO artistaDAO = new ArtistaDAOImpl();
+        int id = Integer.parseInt(request.getParameter("id"));
         String nombre = request.getParameter("nombre");
         String descripcion = request.getParameter("descripcion");
         String nacionalidad = request.getParameter("nacionalidad");
@@ -149,6 +150,7 @@ public class ArtistaServlet extends HttpServlet {
         Artista artista = new Artista();
 
         try {
+            artista.setIdArtista(id);
             artista.setNombre(nombre);
             artista.setAnioInicio(anioInicio);
             artista.setNacionalidad(nacionalidad);

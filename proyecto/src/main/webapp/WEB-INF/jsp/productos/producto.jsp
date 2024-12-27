@@ -81,8 +81,10 @@
             <p class="card-text">Precio: <strong>$<%= producto.getPrecio() %></strong></p>
             <div class="mt-auto d-flex gap-2">
               <a href="${pageContext.request.contextPath}/proyecto/productos/<%= producto.getIdProducto() %>" class="btn btn-info btn-sm">Ver Detalle</a>
-              <a href="${pageContext.request.contextPath}/proyecto/pedidos/carrito?id=<%= producto.getIdProducto() %>"
-                 class="btn btn-success btn-sm">Añadir Al Carrito</a>
+              <form action="${pageContext.request.contextPath}/proyecto/carrito/" method="get">
+                <input type="hidden" name="codigo" value="<%= producto.getIdProducto() %>">
+                <button class="btn btn-success btn-sm">Añadir Al Carrito</button>
+              </form>
               <% if (usuario != null && "administrador".equals(usuario.getRol())) { %>
               <a href="${pageContext.request.contextPath}/proyecto/productos/editar/<%= producto.getIdProducto() %>" class="btn btn-warning btn-sm">Editar</a>
               <form action="${pageContext.request.contextPath}/proyecto/productos/borrar/" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este producto?')" class="d-inline">

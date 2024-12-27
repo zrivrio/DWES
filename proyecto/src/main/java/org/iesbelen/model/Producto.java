@@ -7,7 +7,10 @@ public class Producto {
     private String descripcion;
     private int idCategoria;
     private int idArtista;
+    private int cantidad;
 
+    public int getCantidad() {return cantidad;}
+    public void setCantidad(int cantidad) {  this.cantidad = cantidad;}
     public int getIdProducto() {
         return idProducto;
     }

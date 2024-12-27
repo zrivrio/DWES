@@ -11,15 +11,17 @@ import org.iesbelen.model.Usuario;
 import java.io.IOException;
 
 @WebFilter(
-        urlPatterns = {"/proyecto/*"},
-        initParams = { @WebInitParam(name = "acceso-concedido-a-rol", value = "cliente,administrador,vendedor")}
+        urlPatterns = {"/proyecto/pedidos/*"},
+        initParams = { @WebInitParam(name = "acceso-concedido-a-rol", value = "administrador")}
 )
+
 public class PedidosFilter implements Filter {
 
     private String rolAcceso;
 
     public PedidosFilter() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -29,28 +31,29 @@ public class PedidosFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpServletRequest httpRequest =(HttpServletRequest)request;
+        HttpServletResponse httpResponse = (HttpServletResponse)response;
 
         HttpSession session = httpRequest.getSession();
         String url = httpRequest.getRequestURI().toString();
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario-logado");
+        Usuario usuarios = null;
 
-        // Verificar si el usuario está logueado y tiene un rol adecuado
-        if (usuario != null && (rolAcceso.contains(usuario.getRol()) || url.endsWith("/pedidos/crear"))) {
-            // Permitir acceso a la página de creación de productos o roles específicos
+        if(session != null
+                && (usuarios = (Usuario) session.getAttribute("usuario-logado")) != null
+                && rolAcceso.equals(usuarios.getRol())) {
             chain.doFilter(request, response);
-        } else if (url.endsWith("/pedidos/") || url.endsWith("/pedidos/crear")
-                || url.contains("/pedidos/editar")
+        } else if (url.endsWith("/pedidos/crear") ||
+                url.contains("/pedidos/editar")
                 || url.contains("/pedidos/borrar")) {
-            // Redirigir a login si el usuario no tiene acceso
+
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/proyecto/usuarios/login");
-        } else {
-            // Permitir el acceso si no hay restricción
+            return;
+        }else {
             chain.doFilter(request, response);
         }
     }
+
 
     @Override
     public void destroy() {
