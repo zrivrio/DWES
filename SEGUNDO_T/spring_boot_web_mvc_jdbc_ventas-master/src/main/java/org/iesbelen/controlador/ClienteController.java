@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //Se puede fijar ruta base de las peticiones de este controlador.
 //Los mappings de los métodos tendrían este valor /clientes como
 //prefijo.
+//Si se descomenta el RequestMapping se debera poner siempre lo que quida y despuess seguido lo que pidan las GetMapping
 //@RequestMapping("/clientes")
 public class ClienteController {
 

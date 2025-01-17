@@ -1,5 +1,6 @@
 package org.iesbelen.dao;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,8 @@ import org.iesbelen.modelo.Cliente;
 import org.iesbelen.modelo.Comercial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import lombok.AllArgsConstructor;
@@ -24,9 +27,26 @@ public class ComercialDAOImpl implements ComercialDAO {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public void create(Comercial cliente) {
+	public synchronized void create(Comercial comercial) {
 		// TODO Auto-generated method stub
+		String sqlInsert = """
+							INSERT INTO comercial (nombre, apellido1, apellido2, comisión) 
+							VALUES  (     ?,         ?,         ?,       ?)
+						   """;
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		//Con recuperación de id generado
+		int rows = jdbcTemplate.update(connection -> {
+			PreparedStatement ps = connection.prepareStatement(sqlInsert, new String[] { "id" });
+			int idx = 1;
+			ps.setString(idx++, comercial.getNombre());
+			ps.setString(idx++, comercial.getApellido1());
+			ps.setString(idx++, comercial.getApellido2());
+			ps.setFloat(idx++, comercial.getComision());
+			return ps;
+		},keyHolder);
 
+		comercial.setId(keyHolder.getKey().intValue());
+		log.info("Insertados {} registros.", rows);
 	}
 
 	@Override
