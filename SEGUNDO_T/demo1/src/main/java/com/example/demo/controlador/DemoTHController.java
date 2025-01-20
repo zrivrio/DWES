@@ -93,5 +93,11 @@ public class DemoTHController {
         return "demoth9";
     }
 
+    @GetMapping("/traduccion")
+    public String traduccion(Model model) {
+
+        return "traduccion";
+    }
+
 
 }
