@@ -16,5 +16,30 @@ public class Cliente {
 	private String apellido2;
 	private String ciudad;
 	private int categoria;
-	
+
+	public Cliente() {}
+
+	public long getId() {
+		return id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getApellido1() {
+		return apellido1;
+	}
+
+	public String getApellido2() {
+		return apellido2;
+	}
+
+	public String getCiudad() {
+		return ciudad;
+	}
+
+	public int getCategoria() {
+		return categoria;
+	}
 }

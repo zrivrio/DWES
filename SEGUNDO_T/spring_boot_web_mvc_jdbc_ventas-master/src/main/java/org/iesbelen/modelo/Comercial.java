@@ -13,4 +13,26 @@ public class Comercial {
 	private String apellido2;
 	private float comision;
 
+	public Comercial() {}
+
+
+	public int getId() {
+		return id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getApellido1() {
+		return apellido1;
+	}
+
+	public float getComision() {
+		return comision;
+	}
+
+	public String getApellido2() {
+		return apellido2;
+	}
 }
