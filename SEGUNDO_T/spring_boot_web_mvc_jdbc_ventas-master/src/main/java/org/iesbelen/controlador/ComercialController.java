@@ -1,6 +1,7 @@
 package org.iesbelen.controlador;
 
 
+import org.iesbelen.dto.PedidoDTO;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.modelo.Comercial;
 import org.iesbelen.modelo.Pedido;
@@ -20,12 +21,11 @@ public class ComercialController {
 
     private final ComercialService comercialService;
     private final PedidoService pedidoService;
-    private final ClienteService clienteService;
 
-    public ComercialController(ComercialService comercialService, PedidoService pedidoService, ClienteService clienteService) {
+
+    public ComercialController(ComercialService comercialService, PedidoService pedidoService) {
         this.comercialService = comercialService;
         this.pedidoService = pedidoService;
-        this.clienteService = clienteService;
     }
 
     @GetMapping("")
@@ -37,12 +37,10 @@ public class ComercialController {
     @GetMapping("/{id}")
     public String detalle(Model model, @PathVariable Integer id) {
         Comercial comercial = comercialService.one(id);
-        List<Pedido> listaPedido = pedidoService.byIdComercial(id);
-        List<Cliente> listaCliente = clienteService.listAll();
+        List<PedidoDTO> pedidoDTO = pedidoService.listPedidosDTO(id);
 
-        model.addAttribute("listaPedido", listaPedido);
-        model.addAttribute("listaCliente", listaCliente);
         model.addAttribute("comercial", comercial);
+        model.addAttribute("pedidosDTO", pedidoDTO);
 
         return "comercial/detalle-comercial";
     }

@@ -98,13 +98,11 @@
 		<hr/>
 	</div>
 
-	<div  th:each="pedido : ${listaPedido}" style="margin-top: 6px;" class="clearfix">
-		<div style="float: left;width: 14%" th:text="${pedido.id}">0</div>
-		<div style="float: left;width: 14%" th:text="${pedido.total}">total</div>
-		<div style="float: left;width: 14%" th:text="${pedido.fecha}">fecha</div>
-		<div  th:each="cliente : ${listaCliente}" style="margin-top: 6px;" class="clearfix">
-			<div style="float: left;width: 14%" th:if="cliente.id == pedido.id_cliente" th:text="${cliente.nombre}">cliente</div>
-		</div>
+	<div  th:each="pedidoDTO : ${pedidosDTO}" style="margin-top: 6px;" class="clearfix">
+		<div style="float: left;width: 14%" th:text="${pedidoDTO.id}">0</div>
+		<div style="float: left;width: 14%" th:text="${pedidoDTO.total}">total</div>
+		<div style="float: left;width: 14%" th:text="${pedidoDTO.fecha}">fecha</div>
+		<div style="float: left;width: 14%" th:text="${pedidoDTO.nombre_cliente}">cliente</div>
 	</div>
 </div>
 

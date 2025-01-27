@@ -8,8 +8,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PedidoMapper {
 
-    @Mapping(target = "nombreCliente", source = "nombreCliente")
-    public PedidoDTO pedidoApedidoDTO(Pedido pedido, String nombreCliente);
+    @Mapping(target = "nombre_cliente", source = "nombre_cliente")
+    public PedidoDTO pedidoApedidoDTO(Pedido pedido, String nombre_cliente);
 
 
     public Pedido pedidoDTOApedido(Pedido pedido);
