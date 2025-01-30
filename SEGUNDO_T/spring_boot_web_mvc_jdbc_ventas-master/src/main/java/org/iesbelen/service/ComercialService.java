@@ -1,18 +1,15 @@
 package org.iesbelen.service;
 
-import org.iesbelen.dao.ClienteDAO;
 import org.iesbelen.dao.ComercialDAO;
 import org.iesbelen.dao.PedidoDAO;
-import org.iesbelen.dto.PedidoDTO;
-import org.iesbelen.mapstruct.PedidoMapper;
-import org.iesbelen.modelo.Cliente;
+import org.iesbelen.dto.ComercialDTO;
+import org.iesbelen.mapstruct.ComercialMapper;
 import org.iesbelen.modelo.Comercial;
 import org.iesbelen.modelo.Pedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +18,12 @@ public class ComercialService {
 
     @Autowired
     private ComercialDAO comercialDAO;
+
+    @Autowired
+    private PedidoDAO pedidoDAO;
+
+    @Autowired
+    private ComercialMapper comercialMapper;
 
     public List<Comercial> listAll(){
         return comercialDAO.getAll();
@@ -51,6 +54,24 @@ public class ComercialService {
         comercialDAO.delete(id);
 
     }
+
+    public ComercialDTO comercialDTO(int id) {
+        List<Pedido> listPedidoByComercia = pedidoDAO.getById_Comercial(id);
+        Optional<Comercial> optCo = comercialDAO.find(id);
+
+        Comercial comercial = optCo.get();
+
+        int totalPedidos = pedidoDAO.getAll().size();
+        int totalPedidosByComercial = listPedidoByComercia.size();
+
+        double mediaPedidos =  (double) totalPedidosByComercial / totalPedidos;
+        mediaPedidos = mediaPedidos*100;
+
+        return comercialMapper.comercialAComercialDTO(comercial, totalPedidosByComercial, mediaPedidos);
+    }
+
+
+
 
 
 }

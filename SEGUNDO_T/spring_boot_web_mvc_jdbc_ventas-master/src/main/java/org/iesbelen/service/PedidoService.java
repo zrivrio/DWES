@@ -32,7 +32,6 @@ public class PedidoService {
     public List<Pedido> listPedidos(int idComercial) {
 
         List<Pedido> pedidos = pedidoDAO.getById_Comercial(idComercial);
-        pedidos.sort((a, b) -> b.getFecha().compareTo(a.getFecha()));
 
         return pedidos;
     }
@@ -41,7 +40,6 @@ public class PedidoService {
 
         List<Cliente> clientes = clienteDAO.getAll();
         List<Pedido> pedidos = pedidoDAO.getById_Comercial(idComercial);
-        pedidos.sort((a, b) -> b.getFecha().compareTo(a.getFecha()));
 
         List<PedidoDTO> pedidosDTO = new ArrayList<>();
 
@@ -54,7 +52,6 @@ public class PedidoService {
                 }
             }
         }
-        System.out.println("Pasa por aquí" + pedidosDTO);
         return pedidosDTO;
     }
 }

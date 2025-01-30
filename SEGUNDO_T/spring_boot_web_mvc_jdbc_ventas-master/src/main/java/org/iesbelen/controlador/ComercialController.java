@@ -4,6 +4,7 @@ package org.iesbelen.controlador;
 import org.iesbelen.dto.PedidoDTO;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.modelo.Comercial;
+import org.iesbelen.dto.ComercialDTO;
 import org.iesbelen.modelo.Pedido;
 import org.iesbelen.service.ClienteService;
 import org.iesbelen.service.ComercialService;
@@ -36,8 +37,10 @@ public class ComercialController {
     }
     @GetMapping("/{id}")
     public String detalle(Model model, @PathVariable Integer id) {
-        Comercial comercial = comercialService.one(id);
+        ComercialDTO comercial = comercialService.comercialDTO(id);
         List<PedidoDTO> pedidoDTO = pedidoService.listPedidosDTO(id);
+
+
 
         model.addAttribute("comercial", comercial);
         model.addAttribute("pedidosDTO", pedidoDTO);

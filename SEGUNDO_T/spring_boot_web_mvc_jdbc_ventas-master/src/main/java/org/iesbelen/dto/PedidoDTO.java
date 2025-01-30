@@ -16,8 +16,8 @@ public class PedidoDTO {
     private int id_comercial;
     private String nombre_cliente;
 
-    public PedidoDTO() {}
 
+    public PedidoDTO() {}
 
     public int getId() {
         return id;
