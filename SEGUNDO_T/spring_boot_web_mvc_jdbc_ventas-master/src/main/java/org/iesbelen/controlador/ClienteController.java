@@ -2,10 +2,12 @@ package org.iesbelen.controlador;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.service.ClienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -54,13 +56,15 @@ public class ClienteController {
 	}
 
 	@PostMapping("/crear")
-	public RedirectView submitCrear(@ModelAttribute("cliente") Cliente cliente) {
-
+	public String submitCrear(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute("cliente", cliente);
+			return "clientes/crear-cliente";
+		}
 		clienteService.newCliente(cliente);
-
-		return new RedirectView("/clientes") ;
-
+		return "redirect:/clientes";
 	}
+
 
 	@GetMapping("/editar/{id}")
 	public String editar(Model model, @PathVariable Integer id) {
@@ -73,11 +77,15 @@ public class ClienteController {
 	}
 
 	@PostMapping("/editar/{id}")
-	public RedirectView submitEditar(@ModelAttribute("cliente") Cliente cliente) {
+	public String submitEditar(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result, Model model) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("cliente", cliente);
+			return "clientes/editar-cliente"; // Nombre de la vista del formulario de edición
+		}
 
 		clienteService.replaceCliente(cliente);
-
-		return new RedirectView("/clientes");
+		return "redirect:/clientes";
 	}
 
 	@PostMapping("/borrar/{id}")

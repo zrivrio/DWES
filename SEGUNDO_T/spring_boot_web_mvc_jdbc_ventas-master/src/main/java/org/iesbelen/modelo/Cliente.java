@@ -1,5 +1,6 @@
 package org.iesbelen.modelo;
 
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 //La anotación @Data de lombok proporcionará el código de: 
@@ -11,35 +12,24 @@ import lombok.Data;
 public class Cliente {
 	
 	private long id;
+	@NotBlank(message = "{error.nombre}")
+	@Size(max =30, message = "{error.nombre.size.max}")
 	private String nombre;
+	@NotBlank(message = "{error.apellido}")
+	@Size(max =30, message = "{error.apellido.size.max}")
 	private String apellido1;
 	private String apellido2;
+	@NotBlank(message = "{error.ciudad}")
+	@Size(max =50, message = "{error.ciudad.size.max}")
 	private String ciudad;
+	@Min(value = 100, message = "{error.min.categoria}")
+	@Max(value = 1000, message = "{error.max.categoria}")
 	private int categoria;
+	//@Email(message = "Formato de email incorrecto", regexp="^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,5}")
+	//@NotBlank(message = "Por favor, introduzca email.")
+	//private String correo;
 
-	public Cliente() {}
+	public Cliente() {
 
-	public long getId() {
-		return id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public String getApellido1() {
-		return apellido1;
-	}
-
-	public String getApellido2() {
-		return apellido2;
-	}
-
-	public String getCiudad() {
-		return ciudad;
-	}
-
-	public int getCategoria() {
-		return categoria;
 	}
 }

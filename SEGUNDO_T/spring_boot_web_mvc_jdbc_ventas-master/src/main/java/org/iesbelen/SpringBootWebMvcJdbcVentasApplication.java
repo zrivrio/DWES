@@ -105,17 +105,17 @@ public class SpringBootWebMvcJdbcVentasApplication implements CommandLineRunner{
 		}
 
 		// Como es un cliente nuevo a persistir, id a 0
-		Comercial comercialNew = new Comercial(0, "Antonio", "Martín", "Gonzalez", 8.58F);
+		//Comercial comercialNew = new Comercial(0, "Antonio", "Martín", "Gonzalez", 8.58);
 
 		//create actualiza el id
-		comercialDAO.create(comercialNew);
+		//comercialDAO.create(comercialNew);
 
-		log.info("Comercial nuevo con id = {}", comercialNew.getId());
+	//	log.info("Comercial nuevo con id = {}", comercialNew.getId());
 
-		comercialDAO.getAll().forEach(c -> log.info("Comercial: {}", c));
+		//comercialDAO.getAll().forEach(c -> log.info("Comercial: {}", c));
 
 		//borrando por el id obtenido de create
-		comercialDAO.delete(comercialNew.getId());
+	//	comercialDAO.delete(comercialNew.getId());
 
 		comercialDAO.getAll().forEach(c -> log.info("Comercial: {}", c));
 

@@ -61,7 +61,11 @@ public class ComercialService {
 
         Comercial comercial = optCo.get();
 
+
+
         int totalPedidos = pedidoDAO.getAll().size();
+
+        System.out.println(totalPedidos);
         int totalPedidosByComercial = listPedidoByComercia.size();
 
         double mediaPedidos =  (double) totalPedidosByComercial / totalPedidos;
