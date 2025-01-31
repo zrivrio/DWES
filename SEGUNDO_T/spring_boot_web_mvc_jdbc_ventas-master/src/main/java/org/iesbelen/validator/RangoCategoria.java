@@ -13,9 +13,9 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = RangoCategoriaValidator.class)
 public @interface RangoCategoria {
 
-String message() default "{rangoCategoria.mensaje}";
-Class<?>[] groups() default {};
-Class<? extends Payload>[] payload() default {};
+    String message() default "{rangoCategoria.mensaje}";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
 
     int[] value() default {100, 200, 300, 400, 500, 600, 700, 800, 1000};
 }

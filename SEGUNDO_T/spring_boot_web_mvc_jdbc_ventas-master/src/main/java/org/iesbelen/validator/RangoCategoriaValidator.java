@@ -24,6 +24,6 @@ public class RangoCategoriaValidator implements ConstraintValidator<RangoCategor
 
     @Override
     public boolean isValid(Integer integer, ConstraintValidatorContext constraintValidatorContext) {
-       return integer != null && categoriasValidas.contains(integer);
+        return integer != null && categoriasValidas.contains(integer);
     }
 }

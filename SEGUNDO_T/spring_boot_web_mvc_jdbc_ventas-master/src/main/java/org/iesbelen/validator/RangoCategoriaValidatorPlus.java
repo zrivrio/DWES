@@ -23,6 +23,6 @@ public class RangoCategoriaValidatorPlus implements ConstraintValidator<RangoCat
 
     @Override
     public boolean isValid(Integer integer, ConstraintValidatorContext constraintValidatorContext) {
-       return integer != null && categoriasValidas.contains(integer);
+        return integer != null && categoriasValidas.contains(integer);
     }
 }
