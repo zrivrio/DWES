@@ -3,7 +3,10 @@ package org.iesbelen.modelo;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-//La anotación @Data de lombok proporcionará el código de: 
+import org.iesbelen.validator.RangoCategoria;
+import org.iesbelen.validator.RangoCategoriaPlus;
+
+//La anotación @Data de lombok proporcionará el código de:
 //getters/setters, toString, equals y hashCode
 //propio de los objetos POJOS o tipo Beans
 @Data
@@ -22,12 +25,18 @@ public class Cliente {
 	@NotBlank(message = "{error.ciudad}")
 	@Size(max =50, message = "{error.ciudad.size.max}")
 	private String ciudad;
-	@Min(value = 100, message = "{error.min.categoria}")
-	@Max(value = 1000, message = "{error.max.categoria}")
-	private int categoria;
+	//@Min(value = 100, message = "{error.min.categoria}")
+	//@Max(value = 1000, message = "{error.max.categoria}")
+	//private int categoria;
 	//@Email(message = "Formato de email incorrecto", regexp="^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,5}")
 	//@NotBlank(message = "Por favor, introduzca email.")
 	//private String correo;
+
+	@RangoCategoria
+	private Integer categoria;
+
+	//@RangoCategoriaPlus(values = {100, 200, 300, 500, 700})
+	//private Integer categoria;
 
 	public Cliente() {
 
