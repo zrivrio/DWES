@@ -21,8 +21,8 @@ public class Comercial {
 	@Size(max =30, message = "{error.apellido.size.max}")
 	private String apellido1;
 	private String apellido2;
-	@DecimalMax(value ="0.946")
-	@DecimalMin(value ="0.276")
+	@DecimalMax(value ="0.946", message = "error")
+	@DecimalMin(value ="0.276", message = "error")
 	private BigDecimal comision;
 
 	public Comercial() {

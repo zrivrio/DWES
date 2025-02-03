@@ -100,6 +100,8 @@ public class ComercialController {
 
         comercialService.deleteComercial(id);
 
+
+
         return new RedirectView("/comercial");
     }
 

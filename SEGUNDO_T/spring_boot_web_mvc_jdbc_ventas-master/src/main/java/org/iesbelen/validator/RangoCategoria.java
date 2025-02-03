@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 public @interface RangoCategoria {
 
     String message() default "{rangoCategoria.mensaje}";
+
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

@@ -8,15 +8,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class RangoCategoriaValidatorPlus implements ConstraintValidator<RangoCategoria, Integer> {
+public class RangoCategoriaValidatorPlus implements ConstraintValidator<RangoCategoriaPlus, Integer> {
 
-    private static Set<Integer> categoriasValidas;
+    int[] categoriasValidas;
 
     @Override
-    public void initialize(final RangoCategoria constraintAnnotation) {
-        categoriasValidas = Arrays.stream(constraintAnnotation.value())
-                .boxed()
-                .collect(Collectors.toSet());
+    public void initialize( RangoCategoriaPlus valoresAlmacemados) {
+        categoriasValidas = valoresAlmacemados.values();
+
     }
 
 

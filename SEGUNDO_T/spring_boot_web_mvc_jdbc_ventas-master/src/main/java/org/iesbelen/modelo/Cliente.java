@@ -32,11 +32,11 @@ public class Cliente {
 	//@NotBlank(message = "Por favor, introduzca email.")
 	//private String correo;
 
-	@RangoCategoria
-	private Integer categoria;
-
-	//@RangoCategoriaPlus(values = {100, 200, 300, 500, 700})
+	//@RangoCategoria
 	//private Integer categoria;
+
+	@RangoCategoriaPlus(values = {100, 200, 300, 500, 700})
+	private Integer categoria;
 
 	public Cliente() {
 
