@@ -3,6 +3,7 @@ package org.iesbelen.controlador;
 
 import jakarta.validation.Valid;
 import org.iesbelen.dto.PedidoDTO;
+import org.iesbelen.excepxiones.MiExcepcion;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.modelo.Comercial;
 import org.iesbelen.dto.ComercialDTO;
@@ -97,12 +98,19 @@ public class ComercialController {
 
     @PostMapping("/borrar/{id}")
     public RedirectView submitBorrar(@PathVariable Integer id) {
-
         comercialService.deleteComercial(id);
-
-
-
         return new RedirectView("/comercial");
+    }
+
+    @GetMapping("/error-runtime")
+    public void lanzarRuntimeException() {
+        throw new RuntimeException("Error en el controlador.");
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String manejarRuntimeException(RuntimeException ex, Model model) {
+        model.addAttribute("message", ex.getMessage());
+        return "error";
     }
 
 }

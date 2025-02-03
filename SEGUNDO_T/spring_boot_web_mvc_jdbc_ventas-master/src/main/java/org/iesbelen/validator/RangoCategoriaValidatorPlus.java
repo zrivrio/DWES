@@ -3,18 +3,19 @@ package org.iesbelen.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RangoCategoriaValidatorPlus implements ConstraintValidator<RangoCategoriaPlus, Integer> {
 
-    int[] categoriasValidas;
+    private List<Integer> categoriasValidas;
 
     @Override
     public void initialize( RangoCategoriaPlus valoresAlmacemados) {
-        categoriasValidas = valoresAlmacemados.values();
+        categoriasValidas = new ArrayList<>();
+         for(int valor : valoresAlmacemados.values()){
+             categoriasValidas.add(valor);
+         }
 
     }
 

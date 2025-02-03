@@ -3,6 +3,7 @@ package org.iesbelen.controlador;
 import java.util.List;
 
 import jakarta.validation.Valid;
+import org.iesbelen.excepxiones.MiExcepcion;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.service.ClienteService;
 import org.springframework.stereotype.Controller;
@@ -94,6 +95,17 @@ public class ClienteController {
 		clienteService.deleteCliente(id);
 
 		return new RedirectView("/clientes");
+	}
+
+	@GetMapping("/error-runtime")
+	public void lanzarRuntimeException() {
+		throw new RuntimeException("Error en el controlador.");
+	}
+
+	@ExceptionHandler(RuntimeException.class)
+	public String manejarRuntimeException(RuntimeException ex, Model model) {
+		model.addAttribute("message", ex.getMessage());
+		return "error";
 	}
 
 }
