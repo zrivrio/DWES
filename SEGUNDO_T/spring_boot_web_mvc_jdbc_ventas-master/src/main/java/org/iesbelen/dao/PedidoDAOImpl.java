@@ -2,16 +2,11 @@ package org.iesbelen.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.iesbelen.modelo.Comercial;
 import org.iesbelen.modelo.Pedido;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.Optional;
 
 //Anotación lombok para logging (traza) de la aplicación
 @Slf4j

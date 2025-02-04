@@ -1,9 +1,9 @@
 package org.iesbelen.dao;
 
+import org.iesbelen.modelo.Cliente;
+
 import java.util.List;
 import java.util.Optional;
-
-import org.iesbelen.modelo.Cliente;
 
 public interface ClienteDAO {
 

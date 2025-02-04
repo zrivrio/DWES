@@ -3,8 +3,8 @@ package org.iesbelen.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RangoCategoriaValidatorPlus implements ConstraintValidator<RangoCategoriaPlus, Integer> {
 

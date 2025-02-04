@@ -2,13 +2,9 @@ package org.iesbelen.controlador;
 
 
 import jakarta.validation.Valid;
-import org.iesbelen.dto.PedidoDTO;
-import org.iesbelen.excepxiones.MiExcepcion;
-import org.iesbelen.modelo.Cliente;
-import org.iesbelen.modelo.Comercial;
 import org.iesbelen.dto.ComercialDTO;
-import org.iesbelen.modelo.Pedido;
-import org.iesbelen.service.ClienteService;
+import org.iesbelen.dto.PedidoDTO;
+import org.iesbelen.modelo.Comercial;
 import org.iesbelen.service.ComercialService;
 import org.iesbelen.service.PedidoService;
 import org.springframework.stereotype.Controller;

@@ -1,9 +1,6 @@
 package org.iesbelen.dao;
 
-import java.sql.PreparedStatement;
-import java.util.List;
-import java.util.Optional;
-
+import lombok.extern.slf4j.Slf4j;
 import org.iesbelen.modelo.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,7 +8,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import lombok.extern.slf4j.Slf4j;
+import java.sql.PreparedStatement;
+import java.util.List;
+import java.util.Optional;
 
 //Anotación lombok para logging (traza) de la aplicación
 @Slf4j

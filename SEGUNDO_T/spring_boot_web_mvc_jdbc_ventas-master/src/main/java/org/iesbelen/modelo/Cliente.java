@@ -3,7 +3,6 @@ package org.iesbelen.modelo;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.iesbelen.validator.RangoCategoria;
 import org.iesbelen.validator.RangoCategoriaPlus;
 
 //La anotación @Data de lombok proporcionará el código de:

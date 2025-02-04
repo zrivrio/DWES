@@ -1,9 +1,9 @@
 package org.iesbelen.dao;
 
+import org.iesbelen.modelo.Comercial;
+
 import java.util.List;
 import java.util.Optional;
-
-import org.iesbelen.modelo.Comercial;
 
 public interface ComercialDAO {
 	

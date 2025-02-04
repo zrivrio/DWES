@@ -1,9 +1,6 @@
 package org.iesbelen.controlador;
 
-import java.util.List;
-
 import jakarta.validation.Valid;
-import org.iesbelen.excepxiones.MiExcepcion;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.service.ClienteService;
 import org.springframework.stereotype.Controller;
@@ -11,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.List;
 
 @Controller
 //Se puede fijar ruta base de las peticiones de este controlador.

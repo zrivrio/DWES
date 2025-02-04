@@ -1,19 +1,16 @@
 package org.iesbelen.service;
 
 import org.iesbelen.dao.ClienteDAO;
-import org.iesbelen.dao.ComercialDAO;
 import org.iesbelen.dao.PedidoDAO;
 import org.iesbelen.dto.PedidoDTO;
 import org.iesbelen.mapstruct.PedidoMapper;
 import org.iesbelen.modelo.Cliente;
-import org.iesbelen.modelo.Comercial;
 import org.iesbelen.modelo.Pedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PedidoService {

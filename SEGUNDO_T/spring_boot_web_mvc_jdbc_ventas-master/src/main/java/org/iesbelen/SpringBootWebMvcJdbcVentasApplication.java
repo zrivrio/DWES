@@ -58,17 +58,17 @@ public class SpringBootWebMvcJdbcVentasApplication implements CommandLineRunner{
 		}
 		
 		// Como es un cliente nuevo a persistir, id a 0
-		//Cliente clienteNew = new Cliente(0, "Jose M", "Martín", null, "Málaga", 100);
+		Cliente clienteNew = new Cliente(0, "Jose M", "Martín", null, "Málaga", 100);
 
 		//create actualiza el id
-		//clienteDAO.create(clienteNew);
+		clienteDAO.create(clienteNew);
 
-		//log.info("Cliente nuevo con id = {}", clienteNew.getId());
+		log.info("Cliente nuevo con id = {}", clienteNew.getId());
 
 		clienteDAO.getAll().forEach(c -> log.info("Cliente: {}", c));
 
 		//borrando por el id obtenido de create
-		//clienteDAO.delete(clienteNew.getId());
+		clienteDAO.delete(clienteNew.getId());
 
 		clienteDAO.getAll().forEach(c -> log.info("Cliente: {}", c));
 
@@ -105,17 +105,17 @@ public class SpringBootWebMvcJdbcVentasApplication implements CommandLineRunner{
 		}
 
 		// Como es un cliente nuevo a persistir, id a 0
-		//Comercial comercialNew = new Comercial(0, "Antonio", "Martín", "Gonzalez", 8.58);
+		//Comercial comercialNew = new Comercial(0, "Antonio", "Martín", "Gonzalez", 8.5);
 
 		//create actualiza el id
 		//comercialDAO.create(comercialNew);
 
-	//	log.info("Comercial nuevo con id = {}", comercialNew.getId());
+		//log.info("Comercial nuevo con id = {}", comercialNew.getId());
 
-		//comercialDAO.getAll().forEach(c -> log.info("Comercial: {}", c));
+		comercialDAO.getAll().forEach(c -> log.info("Comercial: {}", c));
 
 		//borrando por el id obtenido de create
-	//	comercialDAO.delete(comercialNew.getId());
+		//comercialDAO.delete(comercialNew.getId());
 
 		comercialDAO.getAll().forEach(c -> log.info("Comercial: {}", c));
 
