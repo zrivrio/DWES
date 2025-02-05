@@ -33,7 +33,7 @@ public class FabricanteDAOImpl  implements FabricanteDAO{
 		
 		List<Fabricante> listFab = jdbcTemplate.query(
                 "SELECT * FROM fabricantes",
-                (rs, rowNum) -> new Fabricante(rs.getInt("codigo"),rs.getString("nombre"))
+                (rs, rowNum) -> new Fabricante(rs.getInt("idFabricante"),rs.getString("nombre"))
         );
 			
         return listFab;
@@ -47,8 +47,8 @@ public class FabricanteDAOImpl  implements FabricanteDAO{
 	public Optional<Fabricante> find(int id) {
 		
 		Fabricante fab =  jdbcTemplate
-				.queryForObject("SELECT * FROM fabricantes WHERE codigo = ?"
-								, (rs, rowNum) -> new Fabricante(rs.getInt("codigo"),rs.getString("nombre"))  
+				.queryForObject("SELECT * FROM fabricantes WHERE idFabricante = ?"
+								, (rs, rowNum) -> new Fabricante(rs.getInt("idFabricante"),rs.getString("nombre"))
 								, id
 								);
 		
@@ -62,7 +62,7 @@ public class FabricanteDAOImpl  implements FabricanteDAO{
 	@Override
 	public void update(Fabricante fabricante) {
 		
-		int rows = jdbcTemplate.update("UPDATE fabricantes SET nombre = ?  WHERE codigo = ?", fabricante.getNombre(), fabricante.getCodigo());
+		int rows = jdbcTemplate.update("UPDATE fabricantes SET nombre = ?  WHERE idFabricante = ?", fabricante.getNombre(), fabricante.getCodigo());
 		if (rows == 0) System.out.println("Update de fabricante con 0 registros actualizados.");
     
 	}
@@ -73,7 +73,7 @@ public class FabricanteDAOImpl  implements FabricanteDAO{
 	@Override
 	public void delete(int id) {
 		
-		int rows = jdbcTemplate.update("DELETE FROM fabricantes WHERE codigo = ?", id);
+		int rows = jdbcTemplate.update("DELETE FROM fabricantes WHERE idFabricante = ?", id);
 		
 		if (rows == 0) System.out.println("Update de fabricante con 0 registros actualizados.");		
 		

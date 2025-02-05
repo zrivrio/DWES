@@ -38,6 +38,7 @@ public class PedidoService {
         List<Cliente> clientes = clienteDAO.getAll();
         List<Pedido> pedidos = pedidoDAO.getById_Comercial(idComercial);
 
+
         List<PedidoDTO> pedidosDTO = new ArrayList<>();
 
         for (Pedido p : pedidos) {

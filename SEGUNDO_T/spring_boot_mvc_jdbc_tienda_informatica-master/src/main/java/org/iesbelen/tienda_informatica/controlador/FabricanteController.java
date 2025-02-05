@@ -12,59 +12,48 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 //Para utilizar una base de url, pero se visualiza mejor con toda la ruta en los métodos
-//@RequestMapping("/fabricantes")
+@RequestMapping("/fabricantes")
 public class FabricanteController {
 
 	@Autowired
 	private FabricanteService fabricanteService;
 
-	@GetMapping("/")
+	@GetMapping("")
 	public String init(Model model) {
 
 		List<Fabricante> listAllFab =  fabricanteService.listAll();
 		model.addAttribute("listaFabricantes", listAllFab);
 
-		return "fabricantes";
+		return "fabricantes/fabricantes";
 
 	}
+
 	
-	@GetMapping("/fabricantes")
-	public String listar(Model model) {
-		
-		List<Fabricante> listAllFab =  fabricanteService.listAll();
-		model.addAttribute("listaFabricantes", listAllFab);
-				
-		return "fabricantes";
-		
-	}
-	
-	@GetMapping("/fabricantes/{id}")
+	@GetMapping("/{id}")
 	public String detalle(Model model, @PathVariable Integer id ) {
 		
 		Fabricante fabricante = fabricanteService.one(id);
 		model.addAttribute("fabricante", fabricante);
 		
-		return "detalle-fabricante";
+		return "fabricantes/detalle-fabricante";
 		
 	}
 	
-	@GetMapping("/fabricantes/crear")
+	@GetMapping("/crear")
 	public String crear(Model model) {
 		
 		Fabricante fabricante = new Fabricante();
 		model.addAttribute("fabricante", fabricante);
 		
-		return "crear-fabricante";
+		return "fabricantes/crear-fabricante";
 		
 	}
 	
-	@PostMapping("/fabricantes/crear")
+	@PostMapping("/crear")
 	public RedirectView submitCrear(@ModelAttribute("fabricante") Fabricante fabricante) {
 		
 		fabricanteService.newFabricante(fabricante);
@@ -73,18 +62,18 @@ public class FabricanteController {
 		
 	}
 	
-	@GetMapping("/fabricantes/editar/{id}")
+	@GetMapping("/editar/{id}")
 	public String editar(Model model, @PathVariable Integer id) {
 		
 		Fabricante fabricante = fabricanteService.one(id);
 		model.addAttribute("fabricante", fabricante);
 		
-		return "editar-fabricante";
+		return "fabricantes/editar-fabricante";
 		
 	}
 	
 	
-	@PostMapping("/fabricantes/editar/{id}")
+	@PostMapping("/editar/{id}")
 	public RedirectView submitEditar(@ModelAttribute("fabricante") Fabricante fabricante) {
 		
 		fabricanteService.replaceFabricante(fabricante);		
@@ -92,7 +81,7 @@ public class FabricanteController {
 		return new RedirectView("/fabricantes");
 	}
 	
-	@PostMapping("/fabricantes/borrar/{id}")
+	@PostMapping("/borrar/{id}")
 	public RedirectView submitBorrar(@PathVariable Integer id) {
 		
 		fabricanteService.deleteFabricante(id);
