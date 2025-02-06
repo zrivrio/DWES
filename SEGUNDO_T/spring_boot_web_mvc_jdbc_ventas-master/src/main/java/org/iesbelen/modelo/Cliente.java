@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.iesbelen.validator.RangoCategoriaPlus;
 
+import java.time.LocalDate;
+
 //La anotación @Data de lombok proporcionará el código de:
 //getters/setters, toString, equals y hashCode
 //propio de los objetos POJOS o tipo Beans
@@ -36,6 +38,10 @@ public class Cliente {
 
 	@RangoCategoriaPlus(values = {100, 200, 300, 500, 700})
 	private Integer categoria;
+
+	//Para coger una fecha se coge la fecha de forma normal y se almacena en un localdate despues extraermo solo el año
+	//@ValidarAño
+	//LocalDate fecha; Esto ya se cogeria de la base de datos
 
 	public Cliente() {
 

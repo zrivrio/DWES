@@ -1,6 +1,7 @@
 package org.iesbelen.controlador;
 
 import jakarta.validation.Valid;
+import org.iesbelen.excepcion.MiExcepcion;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.service.ClienteService;
 import org.springframework.stereotype.Controller;
@@ -80,6 +81,8 @@ public class ClienteController {
 	public String submitEditar(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
+
+
 			model.addAttribute("cliente", cliente);
 			return "clientes/editar-cliente"; // Nombre de la vista del formulario de edición
 		}
@@ -96,15 +99,16 @@ public class ClienteController {
 		return new RedirectView("/clientes");
 	}
 
-	@GetMapping("/error-runtime")
-	public void lanzarRuntimeException() {
-		throw new RuntimeException("Error en el controlador.");
-	}
 
-	@ExceptionHandler(RuntimeException.class)
-	public String manejarRuntimeException(RuntimeException ex, Model model) {
+	@GetMapping("/error-runtime")
+	public String RuntimeExceptionLanzar(RuntimeException ex, Model model) {
 		model.addAttribute("message", ex.getMessage());
 		return "error";
+	}
+	@GetMapping("/error-personalizada")
+	public String MiExcepcionLanzar(MiExcepcion ex, Model model) {
+		model.addAttribute("message", ex.getMessage());
+		return "error-mi-excepcion";
 	}
 
 }

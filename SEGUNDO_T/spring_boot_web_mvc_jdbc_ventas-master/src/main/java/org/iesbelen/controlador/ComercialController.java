@@ -4,6 +4,7 @@ package org.iesbelen.controlador;
 import jakarta.validation.Valid;
 import org.iesbelen.dto.ComercialDTO;
 import org.iesbelen.dto.PedidoDTO;
+import org.iesbelen.excepcion.MiExcepcion;
 import org.iesbelen.modelo.Comercial;
 import org.iesbelen.service.ComercialService;
 import org.iesbelen.service.PedidoService;
@@ -99,14 +100,14 @@ public class ComercialController {
     }
 
     @GetMapping("/error-runtime")
-    public void lanzarRuntimeException() {
-        throw new RuntimeException("Error en el controlador.");
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public String manejarRuntimeException(RuntimeException ex, Model model) {
+    public String RuntimeExceptionLanzar(RuntimeException ex, Model model) {
         model.addAttribute("message", ex.getMessage());
-        return "error";
+        return "errores/error";
+    }
+    @GetMapping("/error-personalizada")
+    public String MiExcepcionLanzar(MiExcepcion ex, Model model) {
+        model.addAttribute("message", ex.getMessage());
+        return "errores/error-mi-excepcion";
     }
 
 }

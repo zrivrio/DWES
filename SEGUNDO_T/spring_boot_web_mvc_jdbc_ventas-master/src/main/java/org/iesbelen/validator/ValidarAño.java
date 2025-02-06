@@ -11,14 +11,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = RangoCategoriaValidator.class)
-public @interface RangoCategoria {
+public @interface ValidarAño {
 
-    String message() default "{rangoCategoria.mensaje}";
-
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
-
-    int[] value() default {100, 200, 300, 400, 500, 600, 700, 800, 1000};
-
-
+        String message() default "El año no es válido";
+        Class<?>[] groups() default {};
+        Class<? extends Payload>[] payload() default {};
 }
