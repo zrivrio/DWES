@@ -38,11 +38,6 @@ public class Cliente {
 
 	@RangoCategoriaPlus(values = {100, 200, 300, 500, 700})
 	private Integer categoria;
-
-	//Para coger una fecha se coge la fecha de forma normal y se almacena en un localdate despues extraermo solo el año
-	//@ValidarAño
-	//LocalDate fecha; Esto ya se cogeria de la base de datos
-
 	public Cliente() {
 
 	}

@@ -10,8 +10,8 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = RangoCategoriaValidator.class)
-public @interface ValidarAño {
+@Constraint(validatedBy = ValidarAnoValidator.class)
+public @interface ValidarAno {
 
         String message() default "El año no es válido";
         Class<?>[] groups() default {};

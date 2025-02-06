@@ -52,4 +52,10 @@ public class PedidoService {
         }
         return pedidosDTO;
     }
+
+    public void newPedido(Pedido pedido) {
+
+        pedidoDAO.create(pedido);
+
+    }
 }
