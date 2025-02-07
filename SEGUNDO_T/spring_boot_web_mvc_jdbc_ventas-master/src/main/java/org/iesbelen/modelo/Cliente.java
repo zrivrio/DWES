@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.iesbelen.validator.RangoCategoriaPlus;
 
-import java.time.LocalDate;
-
 //La anotación @Data de lombok proporcionará el código de:
 //getters/setters, toString, equals y hashCode
 //propio de los objetos POJOS o tipo Beans

@@ -58,4 +58,34 @@ public class PedidoService {
         pedidoDAO.create(pedido);
 
     }
+
+  /*
+
+  Un dto en el que se añade el nombre de cliente y el nombre de comercial al pedido
+  public List<PedidoDTO> listPedidosDTO() {
+
+        List<Cliente> listaCliente = clienteDAO.getAll();
+        List<Comercial> listaComercial = comercialDAO.getAll();
+        List<Pedido> listPedidos = pedidoDAO.getAll();
+
+
+        return listPedidos.stream()
+                .map(pedido -> {
+                    Cliente cliente = listaCliente.stream()
+                            .filter(c -> c.getId() == pedido.getId_cliente())
+                            .findFirst()
+                            .orElse(null);
+
+                    Comercial comercial = listaComercial.stream()
+                            .filter(c -> c.getId() == pedido.getId_comercial())
+                            .findFirst()
+                            .orElse(null);
+
+                    return (cliente != null && comercial != null)
+                            ? pedidoMapper.pedidoAPedidosDTO(pedido, cliente.getNombre(), comercial.getNombre())
+                            : null;
+                })
+                .filter(dto -> dto != null)
+                .collect(Collectors.toList());
+    }*/
 }

@@ -15,6 +15,10 @@ public class Pedido {
     //Para coger una fecha se coge la fecha de forma normal y se almacena en un localdate despues extraermo solo el año
     @ValidarAno
     private LocalDate fecha;
+
+    //@Min()
+    //@Max()
+    //private int year;
     private int id_cliente;
     private int id_comercial;
 
