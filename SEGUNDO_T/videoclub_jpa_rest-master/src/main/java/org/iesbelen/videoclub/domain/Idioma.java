@@ -37,7 +37,4 @@ public class Idioma {
     @JsonIgnore
     private List<Pelicula> peliculasIdioma;
 
-    @OneToMany(mappedBy = "idiomaOriginal")
-    @JsonIgnore
-    private List<Pelicula> peliculasIdiomaOriginal;
 }

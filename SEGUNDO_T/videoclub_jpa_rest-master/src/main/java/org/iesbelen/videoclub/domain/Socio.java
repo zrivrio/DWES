@@ -3,6 +3,7 @@ package org.iesbelen.videoclub.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.NaturalId;
 
 
 @Entity
@@ -17,6 +18,7 @@ public class Socio{
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NaturalId
     private String dni;
 
     private String nombre;

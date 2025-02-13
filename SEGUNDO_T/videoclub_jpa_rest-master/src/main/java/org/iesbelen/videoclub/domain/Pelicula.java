@@ -36,23 +36,7 @@ public class Pelicula {
     @JoinColumn(name = "id_idioma", nullable = false)
     private Idioma idioma;
 
-    @ManyToOne()
-    @JoinColumn(name = "id_idioma_original")
-    private Idioma idiomaOriginal;
-
-    @Column(name = "duracion_alquiler")
-    private int duracionAlquiler;
-
-    @Column(name = "rental_rate")
-    private BigDecimal rentalRate;
     private int duracion;
-
-    @Column(name = "replacement_cost")
-    private BigDecimal replacementCost;
-    private String clasificacion;
-
-    @Column(name = "caracteristicas_especiales")
-    private String caracteristicasEspeciales;
 
     @ManyToMany
     @JoinTable(
@@ -61,8 +45,5 @@ public class Pelicula {
             inverseJoinColumns = @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria"))
     Set<Categoria> categorias = new HashSet<>();
 
-    @Column(name = "ultima_actualizacion")
-    @JsonFormat(pattern = "yyyy-MM-dd-HH:mm:ss",  shape = JsonFormat.Shape.STRING)
-    private Date ultimaActualizacion;
 
 }
