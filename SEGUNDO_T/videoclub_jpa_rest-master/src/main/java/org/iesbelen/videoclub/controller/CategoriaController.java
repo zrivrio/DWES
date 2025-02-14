@@ -21,7 +21,7 @@ public class CategoriaController {
 
     @GetMapping({"","/"})
     public List<Categoria> all() {
-        log.info("Accediendo a todas las películas");
+        log.info("Accediendo a todas las pelicula");
         return this.categoriaService.all();
     }
 

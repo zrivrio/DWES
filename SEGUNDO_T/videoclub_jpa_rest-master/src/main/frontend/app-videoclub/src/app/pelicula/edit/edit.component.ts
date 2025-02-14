@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CategoriaService} from "../categoria.service";
+import {PeliculaService} from "../pelicula.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Categoria} from "../categoria";
+import {Pelicula} from "../pelicula";
 
 @Component({
   selector: 'app-edit',
@@ -10,30 +10,31 @@ import {Categoria} from "../categoria";
   styleUrls: ['./edit.component.css']
 })
 export class EditComponent implements OnInit {
-
+/*
   id: number = 0;
-  categoria: Categoria = { id: 0, nombre: "VOID"};
+  pelicula: Pelicula = { id: 0, titulo: "VOID"};
   form: FormGroup =   new FormGroup({
-    categoria:  new FormControl('', [ Validators.required, Validators.pattern('^[a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ \-\']+') ])
+    pelicula:  new FormControl('', [ Validators.required, Validators.pattern('^[a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ \-\']+') ])
   });
 
   constructor(
-    public categoriaService: CategoriaService,
+    public categoriaService: PeliculaService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
-
+*/
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['idCategoria'];
-    this.categoriaService.find(this.id).subscribe((data: Categoria)=>{
-      this.categoria = data;
+   /* this.id = this.route.snapshot.params['idCategoria'];
+    this.categoriaService.find(this.id).subscribe((data: Pelicula)=>{
+      this.pelicula = data;
 
-      this.form.get('nombre')?.setValue(this.categoria.nombre);
+      this.form.get('titulo')?.setValue(this.pelicula.titulo);
 
 
     });
+    */
   }
-
+/*
   get f(){
     return this.form.controls;
   }
@@ -45,5 +46,5 @@ export class EditComponent implements OnInit {
       this.router.navigateByUrl('categoria/index').then();
     })
   }
-
+*/
 }
