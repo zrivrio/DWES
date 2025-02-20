@@ -4,20 +4,24 @@ import org.iesbelen.videoclub.domain.Categoria;
 import org.iesbelen.videoclub.domain.Pelicula;
 import org.iesbelen.videoclub.exception.CategoriaNotFoundException;
 import org.iesbelen.videoclub.exception.PeliculaNotFoundException;
+import org.iesbelen.videoclub.repository.CategoriaCustomRepository;
 import org.iesbelen.videoclub.repository.CategoriaRepository;
 import org.iesbelen.videoclub.repository.PeliculaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
 
     private final CategoriaRepository categoriaRepository;
+    private final CategoriaCustomRepository categoriaCustomRepository;
 
-    public CategoriaService(CategoriaRepository categoriaRepository) {
+    public CategoriaService(CategoriaRepository categoriaRepository, CategoriaCustomRepository categoriaCustomRepository) {
 
         this.categoriaRepository = categoriaRepository;
+        this.categoriaCustomRepository = categoriaCustomRepository;
     }
 
     public List<Categoria> all() {
@@ -47,4 +51,7 @@ public class CategoriaService {
                 .orElseThrow(() -> new CategoriaNotFoundException(id));
     }
 
+    public List<Categoria> allByQueryFilterStream(Optional<String> buscar, Optional<String> ordenar) {
+       return this.categoriaCustomRepository.queryCustomCategoria(buscar, ordenar);
+    }
 }

@@ -44,4 +44,10 @@ public class PeliculaService {
                 .orElseThrow(() -> new PeliculaNotFoundException(id));
     }
 
+    private Pelicula peliculasDuracionMenor(int cantidad){
+        return this.peliculaRepository.findByDuracionLessThan(cantidad);
+    }
+
+
+
 }

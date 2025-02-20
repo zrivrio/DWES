@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -19,10 +20,19 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar"})
     public List<Categoria> all() {
         log.info("Accediendo a todas las pelicula");
         return this.categoriaService.all();
+    }
+
+    @GetMapping(value = {"","/"})
+    public List<Categoria> all(@RequestParam("buscar") Optional<String> buscar,
+                               @RequestParam("ordenar") Optional<String> ordenar) {
+        log.info("Accediendo a todas las peliculas con filtro buscar: %s y ordenar: %s",
+                buscar.orElse("Void"), ordenar.orElse("Void"));
+
+        return this.categoriaService.allByQueryFilterStream(buscar, ordenar);
     }
 
     @PostMapping({"","/"})

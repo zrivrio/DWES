@@ -28,7 +28,7 @@ public class Socio{
 
     private String apellido;
 
-    @ElementCollection
+    @ElementCollection //Crea una tabla relacionada entre la tabla de address y socio
     @CollectionTable(name = "socio_addresses",joinColumns = @JoinColumn(name = "socio_id"))
     @AttributeOverrides({
             @AttributeOverride( name = "houseNumber", column = @Column(name = "house_number")),
@@ -37,6 +37,9 @@ public class Socio{
             @AttributeOverride( name = "zipCode", column = @Column(name = "zipCode"))
     })
     private Set<Address> addresses = new HashSet<>();
+
+    @Embedded //Dntro de la tabla socio crea unos atributos de address
+    private Address mainAddress;
 
     @ElementCollection
     @CollectionTable(name = "persone_phone_numbers", joinColumns = @JoinColumn(name = "socio_id"))

@@ -12,7 +12,7 @@ import lombok.*;
 @Embeddable
 public class Address {
 
-    private int id;
+    private int address_id;
 
     private String street;
 

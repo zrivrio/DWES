@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Year;
@@ -13,6 +14,10 @@ import java.util.Set;
 
 @Entity
 @Table(name="pelicula")
+
+//Para que funcione la colecion Set<Pelicula> en Categoria
+@EqualsAndHashCode(of = "idPelicula")
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
