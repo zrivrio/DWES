@@ -40,6 +40,12 @@ public class CategoriaController {
         return this.categoriaService.save(categoria);
     }
 
+
+    @GetMapping("/{id}/numeroPeliculas")
+    public int getNumeroPeliculas(@PathVariable("id") Long id) {
+        return this.categoriaService.one(id).getPeliculas().size();
+    }
+
     @GetMapping("/{id}")
     public Categoria one(@PathVariable("id") Long id) {
         return this.categoriaService.one(id);

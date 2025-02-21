@@ -47,6 +47,7 @@ public class Pelicula {
             name = "pelicula_categoria",
             joinColumns = @JoinColumn(name = "id_pelicula", referencedColumnName = "id_pelicula"),
             inverseJoinColumns = @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria"))
+    //Una de las dos entidades tiene que tener el jsonignore para que no se vea bucle
     Set<Categoria> categorias = new HashSet<>();
 
 
