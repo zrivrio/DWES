@@ -7,11 +7,10 @@ import org.iesbelen.videoclub.service.CategoriaService;
 import org.iesbelen.videoclub.service.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -27,10 +26,18 @@ public class PeliculaController {
         this.peliculaService = peliculaService;
     }
 
-    @GetMapping({"","/"})
+    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
         return this.peliculaService.all();
+    }
+
+    @GetMapping(value = {"","/"})
+    public ResponseEntity<Map<String,Object>> all(@RequestParam(value = "pagina" , defaultValue = "0") int pagina,
+                                                  @RequestParam(value = "tamanio" , defaultValue = "0") int tamanio) {
+        Map<String,Object> response = this.peliculaService.all(pagina,tamanio);
+        return  ResponseEntity.ok(response);
+
     }
 
     @PostMapping({"","/"})
@@ -65,6 +72,7 @@ public class PeliculaController {
         this.categoriaService.replace(id_categoria, categoriaAdd);
         this.peliculaService.replace(id, pelicula);
     }
+
 
 
 }
