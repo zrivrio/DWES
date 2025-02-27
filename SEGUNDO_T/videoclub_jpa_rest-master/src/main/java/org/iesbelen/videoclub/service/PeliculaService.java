@@ -83,21 +83,31 @@ public class PeliculaService {
 
         return resultado;
     }
-//    public String[] uno(String paco){
-//        Pageable paginado = PageRequest.of(pagina, tamanio, Sort.by("idPelicula").ascending());
-//        Page<Pelicula> pageAll = this.peliculaRepository.findAll(paginado);
-//        Map<String, Object> resultado = new HashMap<>();
-//
-//
-//        resultado.put("total", pageAll.getTotalElements());
-//        resultado.put("totalPages", pageAll.getTotalPages());
-//        resultado.put("peliculas", pageAll.getContent());
-//        resultado.put("currentPage", pageAll.getNumber());
-//
-//        return resultado;
-//        return paco.trim().split("\\s+");
-//    }
+    public List<Pelicula> obtenerPeliculasConOrdenYPaginado(String[] orden, String[] paginado) {
+        Sort sort = null;
 
+        if (orden != null) {
+            for (String criterio : orden) {
+                String[] partes = criterio.split(",");
+                if (partes.length == 2) {
+                    String columna = partes[0];
+                    String sentido = partes[1];
+                    Sort.Order order = new Sort.Order("asc".equalsIgnoreCase(sentido) ? Sort.Direction.ASC : Sort.Direction.DESC, columna);
+                    sort = (sort == null) ? Sort.by(order) : sort.and(Sort.by(order));
+                }
+            }
+        }
+
+        Pageable pageable = Pageable.unpaged();
+        if (paginado != null && paginado.length == 2) {
+            int pagina = Integer.parseInt(paginado[0]);
+            int tamanio = Integer.parseInt(paginado[1]);
+            pageable = PageRequest.of(pagina, tamanio, sort != null ? sort : Sort.unsorted());
+        }
+
+        Page<Pelicula> peliculas = peliculaRepository.findAll(pageable);
+        return peliculas.getContent();
+    }
 
 
 }

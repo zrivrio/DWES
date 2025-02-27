@@ -34,5 +34,4 @@ public class CategoriaCustomRepositoryJPQLimpl implements CategoriaCustomReposit
         }
         return query.getResultList();
     }
-
 }

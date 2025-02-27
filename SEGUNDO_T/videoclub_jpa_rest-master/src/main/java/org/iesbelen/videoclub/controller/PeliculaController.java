@@ -40,6 +40,16 @@ public class PeliculaController {
 
     }
 
+    @GetMapping(value = {"","/"})
+    public List<Pelicula> obtenerPeliculas(
+            @RequestParam(value = "orden", required = false) String[] orden,
+            @RequestParam(value = "paginado", required = false) String[] paginado) {
+
+        // Llamar al servicio para obtener las películas con el orden y paginado proporcionados
+        return peliculaService.obtenerPeliculasConOrdenYPaginado(orden, paginado);
+    }
+
+
     @PostMapping({"","/"})
     public Pelicula newPelicula(@RequestBody Pelicula pelicula) {
         return this.peliculaService.save(pelicula);
