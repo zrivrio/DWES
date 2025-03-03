@@ -3,6 +3,8 @@ package org.iesbelen.videoclub.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.iesbelen.videoclub.domain.Categoria;
 import org.iesbelen.videoclub.domain.Pelicula;
+import org.iesbelen.videoclub.repository.PeliculaCustomRepository;
+import org.iesbelen.videoclub.repository.PeliculaRepository;
 import org.iesbelen.videoclub.service.CategoriaService;
 import org.iesbelen.videoclub.service.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +23,14 @@ public class PeliculaController {
 
     @Autowired
     private CategoriaService categoriaService;
+    @Autowired
+    private PeliculaCustomRepository peliculaCustomRepository;
 
     public PeliculaController(PeliculaService peliculaService) {
         this.peliculaService = peliculaService;
     }
 
-    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio"})
+    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio", "!orden"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
         return this.peliculaService.all();
@@ -40,15 +44,12 @@ public class PeliculaController {
 
     }
 
-    @GetMapping(value = {"","/"})
-    public List<Pelicula> obtenerPeliculas(
-            @RequestParam(value = "orden", required = false) String[] orden,
-            @RequestParam(value = "paginado", required = false) String[] paginado) {
-
-        // Llamar al servicio para obtener las películas con el orden y paginado proporcionados
-        return peliculaService.obtenerPeliculasConOrdenYPaginado(orden, paginado);
+    @GetMapping("/peliculas")
+    public ResponseEntity<List<Pelicula>> getPeliculas(@RequestParam(name = "orden", required = false) List<String> orden) {
+        // Llamamos al servicio pasando la lista de orden
+        List<Pelicula> peliculas = peliculaCustomRepository.queryCustomPeliculas(Optional.ofNullable(orden));
+        return ResponseEntity.ok(peliculas);
     }
-
 
     @PostMapping({"","/"})
     public Pelicula newPelicula(@RequestBody Pelicula pelicula) {
