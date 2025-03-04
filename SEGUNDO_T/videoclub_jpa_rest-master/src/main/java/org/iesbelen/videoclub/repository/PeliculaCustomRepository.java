@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface PeliculaCustomRepository {
 
-    List<Pelicula> queryCustomPeliculas(Optional<List<String>> ordenarOptional);
+    List<Pelicula> queryCustomPeliculas(Optional<String[] > ordenarOptional);
 }

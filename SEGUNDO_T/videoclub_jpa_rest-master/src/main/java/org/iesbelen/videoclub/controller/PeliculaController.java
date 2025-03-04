@@ -30,13 +30,13 @@ public class PeliculaController {
         this.peliculaService = peliculaService;
     }
 
-    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio", "!orden"})
+    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio", "!orden" , "!paginado"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
         return this.peliculaService.all();
     }
 
-    @GetMapping(value = {"","/"})
+    @GetMapping(value = {"","/"}, params = {"!orden", "!paginado"})
     public ResponseEntity<Map<String,Object>> all(@RequestParam(value = "pagina" , defaultValue = "0") int pagina,
                                                   @RequestParam(value = "tamanio" , defaultValue = "0") int tamanio) {
         Map<String,Object> response = this.peliculaService.all(pagina,tamanio);
@@ -44,11 +44,17 @@ public class PeliculaController {
 
     }
 
-    @GetMapping("/peliculas")
-    public ResponseEntity<List<Pelicula>> getPeliculas(@RequestParam(name = "orden", required = false) List<String> orden) {
-        // Llamamos al servicio pasando la lista de orden
-        List<Pelicula> peliculas = peliculaCustomRepository.queryCustomPeliculas(Optional.ofNullable(orden));
-        return ResponseEntity.ok(peliculas);
+    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio", "!paginado"})
+    public ResponseEntity<List<Pelicula>> getPeliculasOrden(@RequestParam(name = "orden", required = false) Optional<String[]> orden) {
+       List<Pelicula> peliculas = this.peliculaCustomRepository.queryCustomPeliculas(orden);
+       return ResponseEntity.ok(peliculas);
+    }
+
+    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio", "!orden"})
+    public ResponseEntity<Map<String, Object>> getPeliculasPaginado(@RequestParam(name = "paginado", required = false) String[] paginado) {
+
+        Map<String, Object> response = this.peliculaService.allPaginado(paginado);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping({"","/"})

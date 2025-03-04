@@ -17,27 +17,22 @@ public class PeliculaCustomRepositoryJPQLimpl implements PeliculaCustomRepositor
     private EntityManager em;
 
     @Override
-    public List<Pelicula> queryCustomPeliculas(Optional<List<String>> ordenarOptional) {
+    public List<Pelicula> queryCustomPeliculas(Optional<String []> ordenarOptional) {
         StringBuilder queryBuilder = new StringBuilder("SELECT p FROM Pelicula p");
 
-        if (ordenarOptional.isPresent() && !ordenarOptional.get().isEmpty()) {
-            queryBuilder.append(" ORDER BY ");
-            List<String> ordenes = ordenarOptional.get();
-
-            List<String> criteriosOrden = new ArrayList<>();
-            for (String orden : ordenes) {
-                String[] partes = orden.split(",");
-                if (partes.length == 2) {
-                    String columna = partes[0];
-                    String sentido = partes[1].equalsIgnoreCase("desc") ? "DESC" : "ASC";
-                    criteriosOrden.add("p." + columna + " " + sentido);
-                }
-            }
-            queryBuilder.append(String.join(", ", criteriosOrden));
-        }
-
-        Query query = em.createQuery(queryBuilder.toString(), Pelicula.class);
-        return query.getResultList();
+       if (ordenarOptional.isPresent()) {
+           String[] ordenar = ordenarOptional.get();
+           queryBuilder.append(" ORDER BY ");
+           for (int i = 0; i < ordenar.length; i++) {
+               String[] partes = ordenar[i].split(",");
+               String columna = partes[0];
+               String dirreccion = partes[1];
+               queryBuilder.append("p."+columna+" ").append(dirreccion);
+               if(i < ordenar.length - 1){
+                   queryBuilder.append(", ");
+               }
+           }
+       }
     }
 
 

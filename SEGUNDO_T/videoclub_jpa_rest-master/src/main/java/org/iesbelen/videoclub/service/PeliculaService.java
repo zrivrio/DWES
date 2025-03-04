@@ -1,9 +1,11 @@
 package org.iesbelen.videoclub.service;
 
 import org.iesbelen.videoclub.exception.PeliculaNotFoundException;
+import org.iesbelen.videoclub.repository.PeliculaCustomRepository;
 import org.iesbelen.videoclub.repository.PeliculaRepository;
 import org.iesbelen.videoclub.domain.Pelicula;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class PeliculaService {
@@ -21,6 +24,9 @@ public class PeliculaService {
 
     @Autowired
     private CategoriaService categoriaService;
+    @Qualifier("peliculaCustomRepository")
+    @Autowired
+    private PeliculaCustomRepository peliculaCustomRepository;
 
     public PeliculaService(PeliculaRepository peliculaRepository) {
 
@@ -57,18 +63,6 @@ public class PeliculaService {
     private Pelicula peliculasDuracionMenor(int cantidad){
         return this.peliculaRepository.findByDuracionLessThan(cantidad);
     }
-//    public boolean addPeliculaCategoria(@PathVariable("id") Long id, @PathVariable("id_categoria") Long id_categoria) {
-//        Pelicula pelicula = this.one(id);
-//        Categoria categoriaAdd = this.categoriaService.one(id_categoria);
-//        boolean res = false;
-//          res = pelicula.getCategorias().add(categoriaAdd) &&
-//        categoriaAdd.getPeliculas().add(pelicula);
-//
-//          if(res){
-//          this.save(pelicula);
-//          }
-//          return res;
-//    }
 
     public Map<String, Object> all(int pagina, int tamanio){
         Pageable paginado = PageRequest.of(pagina, tamanio, Sort.by("idPelicula").ascending());
@@ -83,31 +77,42 @@ public class PeliculaService {
 
         return resultado;
     }
-    public List<Pelicula> obtenerPeliculasConOrdenYPaginado(String[] orden, String[] paginado) {
-        Sort sort = null;
 
-        if (orden != null) {
-            for (String criterio : orden) {
-                String[] partes = criterio.split(",");
-                if (partes.length == 2) {
-                    String columna = partes[0];
-                    String sentido = partes[1];
-                    Sort.Order order = new Sort.Order("asc".equalsIgnoreCase(sentido) ? Sort.Direction.ASC : Sort.Direction.DESC, columna);
-                    sort = (sort == null) ? Sort.by(order) : sort.and(Sort.by(order));
-                }
+    public List<Pelicula> ordenarPeliculasCuston(String[] orden) {
+       return peliculaCustomRepository.queryCustomPeliculas(Optional.of(orden));
+    }
+
+    public List<Pelicula> ordenarPeliculas(String[] orden) {
+        Sort sort = null;
+        if (orden != null && orden.length == 2) {
+            String column = orden[0];
+            String sentido = orden[1];
+            if ("asc".equalsIgnoreCase(sentido)) {
+                sort = Sort.by(column).ascending();
+            }else if ("desc".equalsIgnoreCase(sentido)) {
+                sort = Sort.by(column).descending();
             }
         }
-
-        Pageable pageable = Pageable.unpaged();
-        if (paginado != null && paginado.length == 2) {
-            int pagina = Integer.parseInt(paginado[0]);
-            int tamanio = Integer.parseInt(paginado[1]);
-            pageable = PageRequest.of(pagina, tamanio, sort != null ? sort : Sort.unsorted());
-        }
-
-        Page<Pelicula> peliculas = peliculaRepository.findAll(pageable);
-        return peliculas.getContent();
+        return peliculaRepository.findAll(sort);
     }
+
+    public Map<String, Object> allPaginado(String[] paginacion) {
+        Pageable paginado = PageRequest.of(Integer.parseInt(paginacion[0]),
+                Integer.parseInt(paginacion[1]),
+                Sort.by("idPelicula").ascending());
+
+        Page<Pelicula> pageAll = this.peliculaRepository.findAll(paginado);
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("peliculas", pageAll.getContent());
+        response.put("currentPage", pageAll.getNumber());
+        response.put("totalPages", pageAll.getTotalPages());
+        response.put("totalElements", pageAll.getTotalElements());
+        return response;
+    }
+
+
 
 
 }
