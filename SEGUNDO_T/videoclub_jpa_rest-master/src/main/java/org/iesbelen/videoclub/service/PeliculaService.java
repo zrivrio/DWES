@@ -24,7 +24,6 @@ public class PeliculaService {
 
     @Autowired
     private CategoriaService categoriaService;
-    @Qualifier("peliculaCustomRepository")
     @Autowired
     private PeliculaCustomRepository peliculaCustomRepository;
 
@@ -80,6 +79,7 @@ public class PeliculaService {
 
     public List<Pelicula> ordenarPeliculasCuston(String[] orden) {
        return peliculaCustomRepository.queryCustomPeliculas(Optional.of(orden));
+       //return this.peliculaRepository.findAll(Sort.by(orden[0]))
     }
 
     public List<Pelicula> ordenarPeliculas(String[] orden) {
@@ -97,19 +97,7 @@ public class PeliculaService {
     }
 
     public Map<String, Object> allPaginado(String[] paginacion) {
-        Pageable paginado = PageRequest.of(Integer.parseInt(paginacion[0]),
-                Integer.parseInt(paginacion[1]),
-                Sort.by("idPelicula").ascending());
-
-        Page<Pelicula> pageAll = this.peliculaRepository.findAll(paginado);
-
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("peliculas", pageAll.getContent());
-        response.put("currentPage", pageAll.getNumber());
-        response.put("totalPages", pageAll.getTotalPages());
-        response.put("totalElements", pageAll.getTotalElements());
-        return response;
+     return this.all(Integer.parseInt(paginacion[0]), Integer.parseInt(paginacion[1]));
     }
 
 

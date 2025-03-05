@@ -34,5 +34,5 @@ public class Usuario {
     //Relacion de uno a muchos
     //Un usuario puede hacer muchas ordenes
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Usuario> usuarios;
+    private List<Orden> orden;
 }

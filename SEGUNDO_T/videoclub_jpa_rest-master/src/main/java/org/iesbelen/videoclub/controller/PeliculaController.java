@@ -23,8 +23,6 @@ public class PeliculaController {
 
     @Autowired
     private CategoriaService categoriaService;
-    @Autowired
-    private PeliculaCustomRepository peliculaCustomRepository;
 
     public PeliculaController(PeliculaService peliculaService) {
         this.peliculaService = peliculaService;
@@ -45,8 +43,8 @@ public class PeliculaController {
     }
 
     @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio", "!paginado"})
-    public ResponseEntity<List<Pelicula>> getPeliculasOrden(@RequestParam(name = "orden", required = false) Optional<String[]> orden) {
-       List<Pelicula> peliculas = this.peliculaCustomRepository.queryCustomPeliculas(orden);
+    public ResponseEntity<List<Pelicula>> getPeliculasOrden(@RequestParam(name = "orden", required = false) String[] orden) {
+       List<Pelicula> peliculas = this.peliculaService.ordenarPeliculasCuston(orden);
        return ResponseEntity.ok(peliculas);
     }
 

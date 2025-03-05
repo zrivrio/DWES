@@ -39,6 +39,7 @@ public class Socio{
     private Set<Address> addresses = new HashSet<>();
 
     @Embedded //Dntro de la tabla socio crea unos atributos de address
+    //Solo tiene una direccion
     private Address mainAddress;
 
     @ElementCollection
