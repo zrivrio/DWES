@@ -11,8 +11,8 @@ import lombok.*;
 
 @Embeddable
 public class Address {
-
-    private int address_id;
+    //ya que no se clea una tabla cunado se ejecuta
+    // private int address_id;
 
     private String street;
 

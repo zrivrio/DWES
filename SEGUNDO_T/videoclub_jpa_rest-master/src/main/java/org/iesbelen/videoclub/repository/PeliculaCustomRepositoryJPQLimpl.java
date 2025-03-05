@@ -22,18 +22,14 @@ public class PeliculaCustomRepositoryJPQLimpl implements PeliculaCustomRepositor
 
        if (ordenarOptional.isPresent()) {
            String[] ordenar = ordenarOptional.get();
-           queryBuilder.append(" ORDER BY ");
-           for (int i = 0; i < ordenar.length; i++) {
-               String[] partes = ordenar[i].split(",");
-               String columna = partes[0];
-               String dirreccion = partes[1];
-               queryBuilder.append("p."+columna+" ").append(dirreccion);
-               if(i < ordenar.length - 1){
-                   queryBuilder.append(", ");
-               }
+           if (ordenar.length == 2) {
+               queryBuilder.append(" ORDER BY ");
+               String columna = ordenar[0];
+               String dirreccion = ordenar[1];
+               queryBuilder.append("p."+columna+" ")
+                       .append(dirreccion.equalsIgnoreCase("asc")? "ASC" : "DESC");
            }
        }
+       return  em.createQuery(queryBuilder.toString(), Pelicula.class).getResultList();
     }
-
-
 }
