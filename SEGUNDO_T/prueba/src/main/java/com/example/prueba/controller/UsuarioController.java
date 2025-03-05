@@ -20,6 +20,6 @@ public class UsuarioController {
     public List<Usuario> getUsuarios() {
         return usuarioService.findAll();
     }
-    
+
 
 }
